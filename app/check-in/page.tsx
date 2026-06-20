@@ -197,7 +197,7 @@ export default function CheckIn() {
                   key={x}
                   type="button"
                   onClick={() => toggleActivity(x)}
-                  className={activities.includes(x) ? "pill border-indigo/40 bg-lavender text-indigo" : "pill"}
+                  className={activities.includes(x) ? "rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-white transition" : "pill"}
                 >
                   {x}
                 </button>
