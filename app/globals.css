@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body { @apply bg-mist text-ink antialiased; }
+
+.card { @apply rounded-3xl border border-black/5 bg-white shadow-soft; }
+.pill { @apply rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm text-muted; }
+.input { @apply w-full rounded-2xl border border-black/10 bg-white px-4 py-3 outline-none transition focus:border-indigo/50 focus:ring-4 focus:ring-indigo/10; }
+.btn-primary { @apply rounded-full bg-indigo px-6 py-3 font-semibold text-white transition hover:opacity-90; }
+.btn-secondary { @apply rounded-full border border-black/10 bg-white px-6 py-3 font-semibold text-ink transition hover:bg-black/[0.03]; }
