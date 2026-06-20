@@ -31,7 +31,8 @@ export default function Account() {
     if (data) {
       const rows = data.map((r) => {
         const tags = (r.checkin_tags ?? [])
-          .map((ct: { tags: { name: string; tag_type: string } | null }) => ct.tags)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .map((ct: any) => ct.tags as { name: string; tag_type: string } | null)
           .filter((t): t is { name: string; tag_type: string } => t !== null);
         const activities = tags.filter((t) => t.tag_type === "activity").map((t) => t.name).join("; ");
         const people = tags.filter((t) => t.tag_type === "person").map((t) => t.name).join("; ");

@@ -1,17 +1,14 @@
 import { createClient } from "@/lib/supabase-server";
 import type { CheckIn } from "@/types";
+import type { ClarityScores } from "@/lib/clarity-score";
 
-function toCheckIn(row: {
-  id: string;
-  checkin_date: string;
-  mood_score: number | null;
-  energy_score: number | null;
-  stress_score: number | null;
-  sleep_hours: number | null;
-  note: string | null;
-  checkin_tags: { tags: { name: string; tag_type: string } | null }[] | null;
-}): CheckIn {
-  const tags = (row.checkin_tags ?? []).map((ct) => ct.tags).filter((t): t is { name: string; tag_type: string } => t !== null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toCheckIn(row: any): CheckIn {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tags = ((row.checkin_tags ?? []) as any[]).flatMap((ct) => {
+    const t = ct.tags;
+    return t && typeof t.name === "string" ? [t as { name: string; tag_type: string }] : [];
+  });
   return {
     id: row.id,
     date: row.checkin_date,
@@ -46,6 +43,43 @@ export function isoDateDaysAgo(n: number): string {
   const d = new Date();
   d.setDate(d.getDate() - n);
   return d.toISOString().slice(0, 10);
+}
+
+export async function saveLifeClarityScore(scores: ClarityScores): Promise<void> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const { data: existing } = await supabase
+    .from("insights")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("insight_type", "life-clarity-score")
+    .eq("end_date", today)
+    .maybeSingle();
+
+  if (existing) {
+    await supabase
+      .from("insights")
+      .update({
+        summary: `Overall: ${scores.overall}/100`,
+        evidence: scores as unknown as Record<string, unknown>,
+        confidence_score: scores.overall / 100,
+      })
+      .eq("id", existing.id);
+  } else {
+    await supabase.from("insights").insert({
+      user_id: user.id,
+      insight_type: "life-clarity-score",
+      title: "Life Clarity Score",
+      summary: `Overall: ${scores.overall}/100`,
+      evidence: scores as unknown as Record<string, unknown>,
+      confidence_score: scores.overall / 100,
+      start_date: isoDateDaysAgo(60),
+      end_date: today,
+    });
+  }
 }
 
 export function currentMonthStart(): string {

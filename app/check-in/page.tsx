@@ -48,7 +48,8 @@ export default function CheckIn() {
         setSleepHours(Number(data.sleep_hours ?? 7));
         setNote(data.note ?? "");
         const tags = (data.checkin_tags ?? [])
-          .map((ct: { tags: { name: string; tag_type: string } | null }) => ct.tags)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .map((ct: any) => ct.tags as { name: string; tag_type: string } | null)
           .filter((t): t is { name: string; tag_type: string } => t !== null);
         setActivities(tags.filter((t) => t.tag_type === "activity").map((t) => t.name));
         setPeople(tags.filter((t) => t.tag_type === "person").map((t) => t.name));
