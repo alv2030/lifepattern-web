@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase-browser";
 
 const LINKS = [
   { href: "/dashboard", label: "Dashboard" },
@@ -12,16 +14,43 @@ const LINKS = [
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [authed, setAuthed] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthed(!!session);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setAuthed(!!session);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  async function signOut() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setOpen(false);
+    router.push("/");
+    router.refresh();
+  }
 
   return (
     <header className="mx-auto max-w-7xl px-6 py-6">
       <div className="flex items-center justify-between">
         <Link href="/" className="text-xl font-bold tracking-tight">LifePattern</Link>
         <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
-          {LINKS.map(({ href, label }) => <Link key={href} href={href}>{label}</Link>)}
+          {LINKS.map(({ href, label }) => (
+            <Link key={href} href={href}>{label}</Link>
+          ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/onboarding" className="btn-primary hidden md:inline-flex">Start Free</Link>
+          {authed ? (
+            <button onClick={signOut} className="btn-secondary hidden md:inline-flex">Sign out</button>
+          ) : (
+            <Link href="/auth" className="btn-primary hidden md:inline-flex">Start Free</Link>
+          )}
           <button
             type="button"
             aria-label="Toggle menu"
@@ -39,7 +68,11 @@ export function Nav() {
           {LINKS.map(({ href, label }) => (
             <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>
           ))}
-          <Link href="/onboarding" className="btn-primary mt-2 inline-flex" onClick={() => setOpen(false)}>Start Free</Link>
+          {authed ? (
+            <button onClick={signOut} className="btn-secondary mt-2 text-left">Sign out</button>
+          ) : (
+            <Link href="/auth" className="btn-primary mt-2 inline-flex" onClick={() => setOpen(false)}>Start Free</Link>
+          )}
         </nav>
       )}
     </header>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase-browser";
 
 const ACTIVITIES = ["Work", "Meeting", "Exercise", "Family", "Friends", "Travel", "Reading"];
 
@@ -16,6 +17,8 @@ export default function CheckIn() {
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   function toggleActivity(activity: string) {
     setActivities((prev) =>
@@ -25,17 +28,59 @@ export default function CheckIn() {
 
   async function handleSubmit() {
     setSubmitting(true);
-    const payload = {
-      date: new Date().toISOString().split("T")[0],
-      mood,
-      energy,
-      stress,
-      sleepHours,
-      activities,
-      people: people.split(",").map((p) => p.trim()).filter(Boolean),
-      note,
-    };
-    console.log("Check-in payload:", payload);
+    setError(null);
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      router.push("/auth?next=/check-in");
+      return;
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+    const peopleList = people.split(",").map((p) => p.trim()).filter(Boolean);
+
+    const { data: checkin, error: checkinError } = await supabase
+      .from("checkins")
+      .insert({
+        user_id: session.user.id,
+        checkin_date: today,
+        mood_score: mood,
+        energy_score: energy,
+        stress_score: stress,
+        sleep_hours: sleepHours,
+        note,
+      })
+      .select()
+      .single();
+
+    if (checkinError) {
+      setError(checkinError.message);
+      setSubmitting(false);
+      return;
+    }
+
+    const allTags = [
+      ...activities.map((name) => ({ name, tag_type: "activity" as const })),
+      ...peopleList.map((name) => ({ name, tag_type: "person" as const })),
+    ];
+
+    if (allTags.length && checkin) {
+      const { data: tagRows } = await supabase
+        .from("tags")
+        .upsert(
+          allTags.map(({ name, tag_type }) => ({ user_id: session.user.id, name, tag_type })),
+          { onConflict: "user_id,name,tag_type" }
+        )
+        .select();
+
+      if (tagRows?.length) {
+        await supabase
+          .from("checkin_tags")
+          .insert(tagRows.map((tag) => ({ checkin_id: checkin.id, tag_id: tag.id })));
+      }
+    }
+
     setSubmitting(false);
     setSubmitted(true);
   }
@@ -124,6 +169,7 @@ export default function CheckIn() {
               onChange={(e) => setNote(e.target.value)}
             />
           </label>
+          {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             className="btn-primary disabled:opacity-50"
             type="button"

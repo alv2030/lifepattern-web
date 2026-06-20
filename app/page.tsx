@@ -16,8 +16,8 @@ export default function Home() {
           <h1 className="max-w-4xl text-5xl font-bold tracking-tight md:text-7xl">Understand yourself through patterns.</h1>
           <p className="mt-6 max-w-2xl text-xl leading-8 text-muted">LifePattern helps you discover what drains you, what energizes you, and what keeps repeating — in just 30 seconds a day.</p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/onboarding" className="btn-primary">Start Your First Check-In</Link>
-            <Link href="/dashboard" className="btn-secondary">See Demo Dashboard</Link>
+            <Link href="/auth" className="btn-primary">Start Your First Check-In</Link>
+            <Link href="/auth" className="btn-secondary">Sign In</Link>
           </div>
         </div>
         <div className="card p-6">
