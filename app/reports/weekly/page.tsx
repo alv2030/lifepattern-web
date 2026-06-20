@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { InsightCard } from "@/components/insight-card";
+import { ReportsNav } from "@/components/reports-nav";
 import { generateInsights } from "@/lib/discovery-engine";
 import { getCheckIns, isoDateDaysAgo } from "@/lib/data";
 
@@ -17,12 +18,21 @@ export default async function WeeklyReport() {
     ? `${weekCheckIns[weekCheckIns.length - 1].date} — ${weekCheckIns[0].date}`
     : `${weekFrom} — ${today}`;
 
+  const header = (
+    <div className="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 className="text-4xl font-bold tracking-tight">Weekly Discovery Report</h1>
+        <p className="mt-3 text-muted">{range}</p>
+      </div>
+      <ReportsNav active="weekly" />
+    </div>
+  );
+
   if (!weekCheckIns.length) {
     return (
       <PageShell>
         <section className="mx-auto max-w-5xl px-6 py-14">
-          <h1 className="text-4xl font-bold tracking-tight">Weekly Discovery Report</h1>
-          <p className="mt-3 text-muted">{range}</p>
+          {header}
           <div className="card mt-12 flex flex-col items-center gap-6 py-24 text-center">
             <p className="text-lg text-muted">No check-ins this week yet. Start now and your patterns will appear here.</p>
             <Link href="/check-in" className="btn-primary">Check in today</Link>
@@ -35,8 +45,7 @@ export default async function WeeklyReport() {
   return (
     <PageShell>
       <section className="mx-auto max-w-5xl px-6 py-14">
-        <h1 className="text-4xl font-bold tracking-tight">Weekly Discovery Report</h1>
-        <p className="mt-3 text-muted">{range}</p>
+        {header}
 
         {insights.length ? (
           <div className="mt-8 grid gap-5 md:grid-cols-2">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { ReportsNav } from "@/components/reports-nav";
 import { generateInsights } from "@/lib/discovery-engine";
 import { getCheckIns, currentMonthStart } from "@/lib/data";
 
@@ -21,6 +22,7 @@ export default async function MonthlyReport() {
     return (
       <PageShell>
         <section className="mx-auto max-w-6xl px-6 py-14">
+          <div className="mb-6 flex justify-end"><ReportsNav active="monthly" /></div>
           <div className="rounded-3xl bg-ink p-10 text-white shadow-soft">
             <div className="text-white/60">{month}</div>
             <h1 className="mt-3 text-5xl font-bold tracking-tight">Life Clarity Report</h1>
@@ -72,6 +74,7 @@ export default async function MonthlyReport() {
   return (
     <PageShell>
       <section className="mx-auto max-w-6xl px-6 py-14">
+        <div className="mb-6 flex justify-end"><ReportsNav active="monthly" /></div>
         <div className="rounded-3xl bg-ink p-10 text-white shadow-soft">
           <div className="text-white/60">{month}</div>
           <h1 className="mt-3 text-5xl font-bold tracking-tight">Life Clarity Report</h1>
