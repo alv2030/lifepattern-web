@@ -12,7 +12,7 @@ export type CheckIn = {
 
 export type Insight = {
   id: string;
-  type: "stress" | "energy" | "sleep" | "best-day" | "hidden";
+  type: "stress" | "energy" | "sleep" | "mood" | "relationship" | "best-day" | "hidden";
   title: string;
   summary: string;
   evidence: string[];
