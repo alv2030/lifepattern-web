@@ -10,6 +10,7 @@ export default function Account() {
   const [email, setEmail] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -18,6 +19,36 @@ export default function Account() {
       setEmail(session?.user?.email ?? null);
     });
   }, []);
+
+  async function handleExport() {
+    setExporting(true);
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("checkins")
+      .select("checkin_date, mood_score, energy_score, stress_score, sleep_hours, note, checkin_tags(tags(name, tag_type))")
+      .order("checkin_date", { ascending: false });
+
+    if (data) {
+      const rows = data.map((r) => {
+        const tags = (r.checkin_tags ?? [])
+          .map((ct: { tags: { name: string; tag_type: string } | null }) => ct.tags)
+          .filter((t): t is { name: string; tag_type: string } => t !== null);
+        const activities = tags.filter((t) => t.tag_type === "activity").map((t) => t.name).join("; ");
+        const people = tags.filter((t) => t.tag_type === "person").map((t) => t.name).join("; ");
+        const note = `"${(r.note ?? "").replace(/"/g, '""')}"`;
+        return [r.checkin_date, r.mood_score ?? "", r.energy_score ?? "", r.stress_score ?? "", r.sleep_hours ?? "", activities, people, note].join(",");
+      });
+      const csv = ["date,mood,energy,stress,sleep_hours,activities,people,note", ...rows].join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "lifepattern-export.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    setExporting(false);
+  }
 
   async function handleDelete() {
     setDeleting(true);
@@ -44,6 +75,19 @@ export default function Account() {
           <p className="mt-4 text-muted">
             Signed in as <span className="font-semibold text-ink">{email ?? "—"}</span>
           </p>
+        </div>
+
+        <div className="card mt-4 p-6">
+          <h2 className="text-lg font-semibold">Export data</h2>
+          <p className="mt-2 text-sm text-muted">Download all your check-ins as a CSV file.</p>
+          <button
+            type="button"
+            className="btn-secondary mt-4"
+            onClick={handleExport}
+            disabled={exporting}
+          >
+            {exporting ? "Preparing…" : "Download CSV"}
+          </button>
         </div>
 
         <div className="card mt-4 p-6">

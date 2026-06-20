@@ -7,6 +7,7 @@ import { PageShell } from "@/components/page-shell";
 import { createClient } from "@/lib/supabase-browser";
 
 const ACTIVITIES = ["Work", "Meeting", "Exercise", "Family", "Friends", "Travel", "Reading"];
+const PEOPLE_SUGGESTIONS = ["Partner", "Family", "Friend", "Manager", "Colleague", "Doctor"];
 
 export default function CheckIn() {
   const [mood, setMood] = useState(7);
@@ -14,7 +15,8 @@ export default function CheckIn() {
   const [stress, setStress] = useState(5);
   const [sleepHours, setSleepHours] = useState(7);
   const [activities, setActivities] = useState<string[]>([]);
-  const [people, setPeople] = useState("");
+  const [people, setPeople] = useState<string[]>([]);
+  const [personInput, setPersonInput] = useState("");
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -49,7 +51,7 @@ export default function CheckIn() {
           .map((ct: { tags: { name: string; tag_type: string } | null }) => ct.tags)
           .filter((t): t is { name: string; tag_type: string } => t !== null);
         setActivities(tags.filter((t) => t.tag_type === "activity").map((t) => t.name));
-        setPeople(tags.filter((t) => t.tag_type === "person").map((t) => t.name).join(", "));
+        setPeople(tags.filter((t) => t.tag_type === "person").map((t) => t.name));
       }
       setLoading(false);
     }
@@ -60,6 +62,27 @@ export default function CheckIn() {
     setActivities((prev) =>
       prev.includes(activity) ? prev.filter((a) => a !== activity) : [...prev, activity]
     );
+  }
+
+  function togglePerson(name: string) {
+    setPeople((prev) =>
+      prev.includes(name) ? prev.filter((p) => p !== name) : [...prev, name]
+    );
+  }
+
+  function removePerson(name: string) {
+    setPeople((prev) => prev.filter((p) => p !== name));
+  }
+
+  function handlePersonKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      const val = personInput.trim().replace(/,$/, "");
+      if (val && !people.includes(val)) {
+        setPeople((prev) => [...prev, val]);
+      }
+      setPersonInput("");
+    }
   }
 
   async function handleSubmit() {
@@ -73,7 +96,6 @@ export default function CheckIn() {
     }
 
     const today = new Date().toISOString().split("T")[0];
-    const peopleList = people.split(",").map((p) => p.trim()).filter(Boolean);
     const scores = { mood_score: mood, energy_score: energy, stress_score: stress, sleep_hours: sleepHours, note };
 
     let checkinId: string;
@@ -94,7 +116,7 @@ export default function CheckIn() {
 
     const allTags = [
       ...activities.map((name) => ({ name, tag_type: "activity" as const })),
-      ...peopleList.map((name) => ({ name, tag_type: "person" as const })),
+      ...people.map((name) => ({ name, tag_type: "person" as const })),
     ];
 
     if (allTags.length) {
@@ -115,6 +137,8 @@ export default function CheckIn() {
     setSubmitting(false);
     setSubmitted(true);
   }
+
+  const customPeople = people.filter((p) => !PEOPLE_SUGGESTIONS.includes(p));
 
   if (loading) {
     return (
@@ -204,15 +228,34 @@ export default function CheckIn() {
               ))}
             </div>
           </div>
-          <label className="block">
+          <div>
             <span className="font-semibold">People involved</span>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {PEOPLE_SUGGESTIONS.map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => togglePerson(name)}
+                  className={people.includes(name) ? "rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-white transition" : "pill"}
+                >
+                  {name}
+                </button>
+              ))}
+              {customPeople.map((name) => (
+                <span key={name} className="flex items-center gap-1 rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-white">
+                  {name}
+                  <button type="button" onClick={() => removePerson(name)} className="ml-0.5 leading-none text-white/70 hover:text-white">×</button>
+                </span>
+              ))}
+            </div>
             <input
               className="input mt-3"
-              placeholder="Manager, partner, friend..."
-              value={people}
-              onChange={(e) => setPeople(e.target.value)}
+              placeholder="Add a name, press Enter…"
+              value={personInput}
+              onChange={(e) => setPersonInput(e.target.value)}
+              onKeyDown={handlePersonKeyDown}
             />
-          </label>
+          </div>
           <label className="block">
             <span className="font-semibold">What stood out today?</span>
             <textarea
