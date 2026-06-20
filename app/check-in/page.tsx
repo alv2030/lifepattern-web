@@ -25,20 +25,17 @@ export default function CheckIn() {
 
   async function handleSubmit() {
     setSubmitting(true);
-    if (supabase) {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        await supabase.from("checkins").insert({
-          user_id: session.user.id,
-          checkin_date: new Date().toISOString().split("T")[0],
-          mood_score: mood,
-          energy_score: energy,
-          stress_score: stress,
-          sleep_hours: sleepHours,
-          note,
-        });
-      }
-    }
+    const payload = {
+      date: new Date().toISOString().split("T")[0],
+      mood,
+      energy,
+      stress,
+      sleepHours,
+      activities,
+      people: people.split(",").map((p) => p.trim()).filter(Boolean),
+      note,
+    };
+    console.log("Check-in payload:", payload);
     setSubmitting(false);
     setSubmitted(true);
   }
