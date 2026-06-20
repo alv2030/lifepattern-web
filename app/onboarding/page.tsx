@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PageShell } from "@/components/page-shell";
+import { createClient } from "@/lib/supabase-browser";
 
 const GOALS = ["Understand stress", "Improve energy", "Avoid burnout", "Understand myself", "Improve happiness"];
 const WORK_TYPES = ["Engineer", "Founder", "Manager", "Consultant", "Healthcare", "Other"];
@@ -10,9 +11,26 @@ const WORK_TYPES = ["Engineer", "Founder", "Manager", "Consultant", "Healthcare"
 export default function Onboarding() {
   const [goals, setGoals] = useState<string[]>([]);
   const [workType, setWorkType] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const router = useRouter();
 
   function toggleGoal(goal: string) {
     setGoals((prev) => prev.includes(goal) ? prev.filter((g) => g !== goal) : [...prev, goal]);
+  }
+
+  async function handleContinue() {
+    setSaving(true);
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      await supabase.from("profiles").upsert({
+        id: session.user.id,
+        email: session.user.email,
+        goals,
+        work_type: workType,
+      }, { onConflict: "id" });
+    }
+    router.push("/check-in");
   }
 
   return (
@@ -55,7 +73,13 @@ export default function Onboarding() {
             <p className="mt-3 text-muted">Your data is private by default, exportable, and deletable. AI is used only to explain evidence-backed insights.</p>
           </div>
         </div>
-        <Link href="/check-in" className="btn-primary mt-8 inline-flex">Continue to first check-in</Link>
+        <button
+          onClick={handleContinue}
+          disabled={saving}
+          className="btn-primary mt-8 disabled:opacity-50"
+        >
+          {saving ? "Saving..." : "Continue to first check-in"}
+        </button>
       </section>
     </PageShell>
   );
