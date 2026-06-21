@@ -4,7 +4,11 @@
 
 :root { color-scheme: light; }
 html { scroll-behavior: smooth; }
-body { @apply bg-mist text-ink antialiased; }
+body {
+  @apply bg-mist text-ink antialiased;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+.font-display { font-family: var(--font-display), Georgia, serif; }
 
 .card { @apply rounded-3xl border border-black/5 bg-white shadow-soft; }
 .pill { @apply rounded-full border border-black/10 bg-white/80 px-4 py-2 text-sm text-muted; }
