@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
 const LINKS = [
@@ -16,6 +16,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [authed, setAuthed] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const supabase = createClient();
@@ -40,15 +41,29 @@ export function Nav() {
     <header className="mx-auto max-w-7xl px-6 py-6">
       <div className="flex items-center justify-between">
         <Link href="/" className="text-xl font-bold tracking-tight">LifePattern</Link>
-        <nav className="hidden items-center gap-6 text-sm text-muted md:flex">
-          {LINKS.map(({ href, label }) => (
-            <Link key={href} href={href}>{label}</Link>
-          ))}
+        <nav className="hidden items-center gap-6 text-sm md:flex">
+          {LINKS.map(({ href, label }) => {
+            const active = pathname === href || pathname.startsWith(href + "/") || (href === "/reports/weekly" && pathname.startsWith("/reports"));
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={active ? "font-semibold text-ink" : "text-muted transition hover:text-ink"}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           {authed ? (
             <>
-              <Link href="/account" className="text-sm text-muted transition hover:text-ink">Account</Link>
+              <Link
+                href="/account"
+                className={`text-sm transition hover:text-ink ${pathname === "/account" ? "font-semibold text-ink" : "text-muted"}`}
+              >
+                Account
+              </Link>
               <button onClick={signOut} className="btn-secondary">Sign out</button>
             </>
           ) : (
@@ -67,17 +82,33 @@ export function Nav() {
         </button>
       </div>
       {open && (
-        <nav className="mt-4 flex flex-col gap-4 border-t border-black/5 pt-4 text-sm md:hidden">
-          {LINKS.map(({ href, label }) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>
-          ))}
+        <nav className="mt-4 flex flex-col gap-1 border-t border-black/5 pt-4 text-sm md:hidden">
+          {LINKS.map(({ href, label }) => {
+            const active = pathname === href || pathname.startsWith(href + "/") || (href === "/reports/weekly" && pathname.startsWith("/reports"));
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className={`rounded-xl px-3 py-2.5 ${active ? "bg-lavender font-semibold text-indigo" : "text-muted hover:bg-mist hover:text-ink"}`}
+              >
+                {label}
+              </Link>
+            );
+          })}
           {authed ? (
             <>
-              <Link href="/account" className="text-muted" onClick={() => setOpen(false)}>Account</Link>
-              <button onClick={signOut} className="btn-secondary mt-2 text-left">Sign out</button>
+              <Link
+                href="/account"
+                onClick={() => setOpen(false)}
+                className={`rounded-xl px-3 py-2.5 ${pathname === "/account" ? "bg-lavender font-semibold text-indigo" : "text-muted hover:bg-mist hover:text-ink"}`}
+              >
+                Account
+              </Link>
+              <button onClick={signOut} className="btn-secondary mt-3">Sign out</button>
             </>
           ) : (
-            <Link href="/auth" className="btn-primary mt-2 inline-flex" onClick={() => setOpen(false)}>Start Free</Link>
+            <Link href="/auth" className="btn-primary mt-3 inline-flex" onClick={() => setOpen(false)}>Start Free</Link>
           )}
         </nav>
       )}
