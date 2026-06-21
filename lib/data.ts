@@ -23,20 +23,24 @@ function toCheckIn(row: any): CheckIn {
 }
 
 export async function getCheckIns(opts?: { from?: string; to?: string }): Promise<CheckIn[]> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return [];
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return [];
 
-  let query = supabase
-    .from("checkins")
-    .select("id, checkin_date, mood_score, energy_score, stress_score, sleep_hours, note, checkin_tags(tags(name, tag_type))")
-    .order("checkin_date", { ascending: false });
+    let query = supabase
+      .from("checkins")
+      .select("id, checkin_date, mood_score, energy_score, stress_score, sleep_hours, note, checkin_tags(tags(name, tag_type))")
+      .order("checkin_date", { ascending: false });
 
-  if (opts?.from) query = query.gte("checkin_date", opts.from);
-  if (opts?.to) query = query.lte("checkin_date", opts.to);
+    if (opts?.from) query = query.gte("checkin_date", opts.from);
+    if (opts?.to) query = query.lte("checkin_date", opts.to);
 
-  const { data } = await query;
-  return (data ?? []).map(toCheckIn);
+    const { data } = await query;
+    return (data ?? []).map(toCheckIn);
+  } catch {
+    return [];
+  }
 }
 
 export function isoDateDaysAgo(n: number): string {
@@ -46,39 +50,43 @@ export function isoDateDaysAgo(n: number): string {
 }
 
 export async function saveLifeClarityScore(scores: ClarityScores): Promise<void> {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
-  const today = new Date().toISOString().slice(0, 10);
-  const { data: existing } = await supabase
-    .from("insights")
-    .select("id")
-    .eq("user_id", user.id)
-    .eq("insight_type", "life-clarity-score")
-    .eq("end_date", today)
-    .maybeSingle();
-
-  if (existing) {
-    await supabase
+    const today = new Date().toISOString().slice(0, 10);
+    const { data: existing } = await supabase
       .from("insights")
-      .update({
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("insight_type", "life-clarity-score")
+      .eq("end_date", today)
+      .maybeSingle();
+
+    if (existing) {
+      await supabase
+        .from("insights")
+        .update({
+          summary: `Overall: ${scores.overall}/100`,
+          evidence: scores as unknown as Record<string, unknown>,
+          confidence_score: scores.overall / 100,
+        })
+        .eq("id", existing.id);
+    } else {
+      await supabase.from("insights").insert({
+        user_id: user.id,
+        insight_type: "life-clarity-score",
+        title: "Life Clarity Score",
         summary: `Overall: ${scores.overall}/100`,
         evidence: scores as unknown as Record<string, unknown>,
         confidence_score: scores.overall / 100,
-      })
-      .eq("id", existing.id);
-  } else {
-    await supabase.from("insights").insert({
-      user_id: user.id,
-      insight_type: "life-clarity-score",
-      title: "Life Clarity Score",
-      summary: `Overall: ${scores.overall}/100`,
-      evidence: scores as unknown as Record<string, unknown>,
-      confidence_score: scores.overall / 100,
-      start_date: isoDateDaysAgo(60),
-      end_date: today,
-    });
+        start_date: isoDateDaysAgo(60),
+        end_date: today,
+      });
+    }
+  } catch {
+    // non-critical — score will be saved on next visit
   }
 }
 
