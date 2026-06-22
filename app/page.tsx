@@ -289,36 +289,42 @@ export default function Home() {
             boxShadow: "0 18px 50px rgba(30, 27, 24, 0.06)",
           }}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+          {/* 2-col on mobile/tablet, 4-col on desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4">
             {FEATURES.map((f, i) => {
+              // mobile 2×2: 0→right+bottom, 1→bottom, 2→right, 3→none
+              // desktop 4×1: 0,1,2→right, 3→none (remove bottom)
               const borderClass = [
-                "border-b sm:border-r md:border-b-0",
-                "border-b sm:border-r-0 md:border-r md:border-b-0",
-                "border-b sm:border-r sm:border-b-0",
+                "border-r border-b md:border-b-0",
+                "border-b md:border-b-0 md:border-r",
+                "border-r md:border-r",
                 "",
               ][i];
               return (
                 <div
                   key={f.title}
-                  className={`group flex flex-col items-center px-6 py-4 text-center md:px-8 ${borderClass}`}
+                  className={`group flex flex-col items-center px-4 py-6 text-center transition-transform duration-300 ease-out hover:-translate-y-[4px] md:px-8 md:py-6 ${borderClass}`}
                   style={{ borderColor: "rgba(182, 138, 90, 0.18)" }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={f.img}
                     alt={f.title}
-                    className="w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.04]"
-                    style={{ height: "90px", display: "block" }}
+                    className="h-[100px] w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.04] md:h-[160px]"
+                    style={{
+                      display: "block",
+                      filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.07)) drop-shadow(0 0 32px rgba(182,138,90,0.07))",
+                    }}
                   />
                   <h3
-                    className="font-heading font-semibold leading-tight"
-                    style={{ color: "#1E1B18", fontSize: "24px", marginTop: "12px" }}
+                    className="font-heading font-semibold leading-tight text-[16px] md:text-[30px]"
+                    style={{ color: "#1E1B18", marginTop: "20px" }}
                   >
                     {f.title}
                   </h3>
                   <p
-                    className="mx-auto"
-                    style={{ color: "#6F675F", fontSize: "16px", fontWeight: 300, lineHeight: "1.5", maxWidth: "240px", marginTop: "8px" }}
+                    className="mx-auto text-[13px] md:text-[16px]"
+                    style={{ color: "#6F675F", fontWeight: 300, lineHeight: "1.6", maxWidth: "220px", marginTop: "10px" }}
                   >
                     {f.body}
                   </p>
