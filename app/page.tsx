@@ -104,7 +104,7 @@ export default function Home() {
       <LandingNav />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "92vh" }}>
+      <section className="relative overflow-hidden md:flex md:items-center" style={{ minHeight: "92vh" }}>
 
         {/* Immersive artwork — bleeds to viewport edge, desktop only */}
         <div className="absolute inset-y-0 right-0 hidden w-[57%] md:block">
@@ -164,8 +164,8 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-20 md:pb-28 md:pt-32">
-          <div className="max-w-[500px]">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-8">
+          <div className="max-w-[560px]">
 
             {/* Editorial eyebrow */}
             <div
