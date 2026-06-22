@@ -112,64 +112,83 @@ export default function Home() {
           <img
             src="/mascots/lucky-cat-hero.png"
             alt="Lucky cat in a Japanese garden with sakura tree, koi pond, and stone lantern"
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-cover"
+            style={{ objectPosition: "40% center" }}
           />
           {/* Gradient fade into page background */}
           <div
             className="pointer-events-none absolute inset-y-0 left-0 w-3/4"
             style={{
               background:
-                "linear-gradient(to right, #FDFAF8 0%, #FDFAF8 6%, rgba(253,250,248,0.88) 30%, rgba(253,250,248,0.25) 65%, transparent 100%)",
+                "linear-gradient(to right, #FDFAF8 0%, #FDFAF8 6%, rgba(253,250,248,0.85) 28%, rgba(253,250,248,0.2) 60%, transparent 100%)",
             }}
           />
           {/* Bottom vignette */}
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
-            style={{ background: "linear-gradient(to top, #FDFAF8, transparent)" }}
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-36"
+            style={{ background: "linear-gradient(to top, #FDFAF8 15%, transparent)" }}
           />
         </div>
 
         {/* Discovery card — floats over image, desktop */}
         <div
-          className="absolute bottom-14 z-20 hidden max-w-[240px] rounded-2xl bg-white/90 px-5 py-4 backdrop-blur-sm md:block"
-          style={{
-            right: "9%",
-            boxShadow: "0 20px 60px rgba(182,138,90,0.20), 0 4px 16px rgba(0,0,0,0.06)",
-          }}
+          className="absolute z-20 hidden md:block"
+          style={{ bottom: "22%", right: "8%" }}
         >
-          <p className="font-heading text-[11px] italic text-warm-muted">
-            I&apos;ve noticed something.
-          </p>
-          <p className="mt-2.5 text-sm leading-relaxed text-warm-ink">
-            On days you sleep 7+ hours,<br />
-            your mood improves by{" "}
-            <span className="font-bold text-gold">34%</span>.
-          </p>
-          <div className="mt-3 border-t pt-2.5" style={{ borderColor: "#E8DDD2" }}>
-            <p className="text-[11px] text-warm-muted">Confidence 87%</p>
+          <div
+            className="relative max-w-[260px] rounded-2xl bg-white/92 px-5 py-5 backdrop-blur-sm"
+            style={{
+              boxShadow: "0 24px 64px rgba(182,138,90,0.22), 0 4px 20px rgba(0,0,0,0.07)",
+            }}
+          >
+            {/* Gold top accent */}
+            <div
+              className="absolute left-5 right-12 top-0 h-[2px] rounded-b-full"
+              style={{ background: "linear-gradient(to right, #B68A5A, transparent)" }}
+            />
+            <div className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: "#B68A5A" }} />
+              <p className="font-heading text-[11px] italic text-warm-muted">
+                I&apos;ve noticed something.
+              </p>
+            </div>
+            <p className="mt-3 text-[0.9rem] leading-relaxed text-warm-ink">
+              On days you sleep 7+ hours,<br />
+              your mood improves by{" "}
+              <span className="font-semibold text-gold">34%</span>.
+            </p>
+            <div className="mt-3.5 border-t pt-3" style={{ borderColor: "#E8DDD2" }}>
+              <p className="text-[11px] tracking-wide text-warm-muted">Confidence 87%</p>
+            </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-16 md:pb-24 md:pt-28">
-          <div className="max-w-[520px]">
+        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-20 md:pb-28 md:pt-32">
+          <div className="max-w-[500px]">
 
-            {/* Badge */}
+            {/* Editorial eyebrow */}
             <div
-              className="hero-in mb-8 inline-flex items-center rounded-full border px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em]"
-              style={{ borderColor: "#E8DDD2", color: "#B68A5A", animationDelay: "0.05s" }}
+              className="hero-in mb-10 flex items-center gap-3"
+              style={{ animationDelay: "0.05s" }}
             >
-              Personal Pattern Discovery
+              <span className="h-px w-8 flex-shrink-0" style={{ background: "#B68A5A" }} />
+              <span
+                className="text-[10.5px] font-semibold uppercase tracking-[0.24em]"
+                style={{ color: "#B68A5A" }}
+              >
+                Personal Pattern Discovery
+              </span>
             </div>
 
             {/* Headline */}
             <h1
-              className="hero-in font-heading text-[2.6rem] font-bold leading-[1.08] tracking-tight text-warm-ink md:text-5xl lg:text-[3.5rem]"
+              className="hero-in font-heading text-[2.75rem] font-bold leading-[1.04] tracking-tight text-warm-ink md:text-[3.25rem] lg:text-[4.5rem]"
               style={{ animationDelay: "0.15s" }}
             >
               Your life is already<br />
               <span className="italic text-gold">telling</span> a story.
-              <span className="mt-4 block">
+              <span className="mt-5 block">
                 LifePattern helps you<br />
                 <span className="italic text-gold">read</span> it.
               </span>
@@ -177,16 +196,16 @@ export default function Home() {
 
             {/* Supporting statement */}
             <p
-              className="hero-in mt-8 text-lg font-medium leading-relaxed text-warm-ink"
+              className="hero-in mt-10 text-xl leading-snug text-warm-ink"
               style={{ animationDelay: "0.28s" }}
             >
-              Your best days have something in common.<br className="hidden md:block" />
+              Your best days have something in common.{" "}
               So do your worst ones.
             </p>
 
             {/* Body copy */}
             <p
-              className="hero-in mt-3 max-w-sm text-base leading-relaxed text-warm-muted"
+              className="hero-in mt-4 max-w-[400px] text-[0.9375rem] leading-relaxed text-warm-muted"
               style={{ animationDelay: "0.36s" }}
             >
               Small moments leave clues. LifePattern helps you discover the people,
@@ -195,7 +214,7 @@ export default function Home() {
 
             {/* CTAs */}
             <div
-              className="hero-in mt-9 flex flex-wrap gap-3"
+              className="hero-in mt-10 flex flex-wrap gap-3"
               style={{ animationDelay: "0.46s" }}
             >
               <Link href="/auth" className="lp-btn-primary">
@@ -215,16 +234,16 @@ export default function Home() {
             </p>
 
             {/* Mobile: hero image */}
-            <div className="relative mt-10 md:hidden">
+            <div className="relative mt-12 md:hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/mascots/lucky-cat-hero.png"
                 alt="Lucky cat in a Japanese garden"
                 className="w-full rounded-2xl object-cover"
-                style={{ height: "300px" }}
+                style={{ height: "320px", objectPosition: "40% center" }}
               />
               <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-20 rounded-b-2xl"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-24 rounded-b-2xl"
                 style={{ background: "linear-gradient(to top, #FDFAF8, transparent)" }}
               />
               {/* Mobile discovery card */}
@@ -232,12 +251,15 @@ export default function Home() {
                 className="absolute bottom-4 left-3 max-w-[200px] rounded-xl bg-white/90 px-4 py-3 backdrop-blur-sm"
                 style={{ boxShadow: "0 8px 32px rgba(182,138,90,0.18)" }}
               >
-                <p className="font-heading text-[10px] italic text-warm-muted">
-                  I&apos;ve noticed something.
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: "#B68A5A" }} />
+                  <p className="font-heading text-[10px] italic text-warm-muted">
+                    I&apos;ve noticed something.
+                  </p>
+                </div>
                 <p className="mt-1.5 text-xs leading-relaxed text-warm-ink">
                   On days you sleep 7+ hours, your mood improves by{" "}
-                  <span className="font-bold text-gold">34%</span>.
+                  <span className="font-semibold text-gold">34%</span>.
                 </p>
                 <p className="mt-1.5 text-[10px] text-warm-muted">Confidence 87%</p>
               </div>
