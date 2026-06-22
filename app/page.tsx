@@ -303,28 +303,28 @@ export default function Home() {
               return (
                 <div
                   key={f.title}
-                  className={`group flex flex-col items-center px-4 py-6 text-center transition-transform duration-300 ease-out hover:-translate-y-[4px] md:px-8 md:py-6 ${borderClass}`}
+                  className={`group flex flex-col items-center px-4 py-3 text-center transition-transform duration-300 ease-out hover:-translate-y-[4px] md:px-8 md:py-3 ${borderClass}`}
                   style={{ borderColor: "rgba(182, 138, 90, 0.18)" }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={f.img}
                     alt={f.title}
-                    className="h-[100px] w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.04] md:h-[160px]"
+                    className="h-[140px] w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.04] md:h-[224px]"
                     style={{
                       display: "block",
-                      filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.07)) drop-shadow(0 0 32px rgba(182,138,90,0.07))",
+                      filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.09))",
                     }}
                   />
                   <h3
-                    className="font-heading font-semibold leading-tight text-[16px] md:text-[30px]"
-                    style={{ color: "#1E1B18", marginTop: "20px" }}
+                    className="font-heading font-semibold leading-tight text-[13px] md:text-[20px]"
+                    style={{ color: "#1E1B18", marginTop: "10px" }}
                   >
                     {f.title}
                   </h3>
                   <p
-                    className="mx-auto text-[13px] md:text-[16px]"
-                    style={{ color: "#6F675F", fontWeight: 300, lineHeight: "1.6", maxWidth: "220px", marginTop: "10px" }}
+                    className="mx-auto text-[11px] md:text-[13px]"
+                    style={{ color: "#6F675F", fontWeight: 300, lineHeight: "1.45", maxWidth: "200px", marginTop: "6px" }}
                   >
                     {f.body}
                   </p>
