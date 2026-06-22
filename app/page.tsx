@@ -174,7 +174,7 @@ export default function Home() {
             >
               <span className="h-px w-8 flex-shrink-0" style={{ background: "#B68A5A" }} />
               <span
-                className="text-[10.5px] font-semibold uppercase tracking-[0.24em]"
+                className="text-[10.5px] font-semibold uppercase tracking-[0.28em]"
                 style={{ color: "#B68A5A" }}
               >
                 Personal Pattern Discovery
@@ -183,20 +183,21 @@ export default function Home() {
 
             {/* Headline */}
             <h1
-              className="hero-in font-heading text-[2.75rem] font-bold leading-[1.04] tracking-tight text-warm-ink md:text-[3.25rem] lg:text-[4.5rem]"
+              className="hero-in font-heading text-[2.75rem] font-bold leading-[1.04] tracking-tight text-warm-ink md:text-[3.25rem] lg:text-[4.75rem] lg:leading-[1.0]"
               style={{ animationDelay: "0.15s" }}
             >
               Your life is already<br />
-              <span className="italic text-gold">telling</span> a story.
-              <span className="mt-5 block">
-                LifePattern helps you<br />
-                <span className="italic text-gold">read</span> it.
+              <span className="italic" style={{ color: "#C4963E" }}>telling</span> a story.
+              <span className="mt-6 block">
+                LifePattern helps you{" "}
+                <br className="hidden md:block" />
+                <span className="italic" style={{ color: "#C4963E" }}>read</span> it.
               </span>
             </h1>
 
             {/* Supporting statement */}
             <p
-              className="hero-in mt-10 text-xl leading-snug text-warm-ink"
+              className="hero-in mt-11 text-xl leading-[1.5] text-warm-ink"
               style={{ animationDelay: "0.28s" }}
             >
               Your best days have something in common.{" "}
@@ -205,7 +206,7 @@ export default function Home() {
 
             {/* Body copy */}
             <p
-              className="hero-in mt-4 max-w-[400px] text-[0.9375rem] leading-relaxed text-warm-muted"
+              className="hero-in mt-4 max-w-[400px] text-[0.9375rem] leading-relaxed tracking-[0.01em] text-warm-muted"
               style={{ animationDelay: "0.36s" }}
             >
               Small moments leave clues. LifePattern helps you discover the people,
@@ -227,7 +228,7 @@ export default function Home() {
 
             {/* Social proof */}
             <p
-              className="hero-in mt-5 text-sm text-warm-muted"
+              className="hero-in mt-5 text-xs tracking-[0.04em] text-warm-muted"
               style={{ animationDelay: "0.56s" }}
             >
               12,431+ people discovering patterns in their everyday lives
