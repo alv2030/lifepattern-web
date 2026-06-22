@@ -312,13 +312,13 @@ export default function Home() {
                   />
                   <h3
                     className="font-heading font-semibold leading-tight"
-                    style={{ color: "#1E1B18", fontSize: "20px", marginTop: "12px" }}
+                    style={{ color: "#1E1B18", fontSize: "24px", marginTop: "12px" }}
                   >
                     {f.title}
                   </h3>
                   <p
                     className="mx-auto"
-                    style={{ color: "#6F675F", fontSize: "13px", lineHeight: "1.45", maxWidth: "240px", marginTop: "8px" }}
+                    style={{ color: "#6F675F", fontSize: "16px", fontWeight: 300, lineHeight: "1.5", maxWidth: "240px", marginTop: "8px" }}
                   >
                     {f.body}
                   </p>
