@@ -5,7 +5,8 @@
 :root { color-scheme: light; }
 html { scroll-behavior: smooth; }
 body {
-  @apply bg-mist text-ink antialiased;
+  background-color: #FDFAF8;
+  @apply text-ink antialiased;
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 .font-display { font-family: var(--font-display), Georgia, serif; }
@@ -15,3 +16,61 @@ body {
 .input { @apply w-full rounded-2xl border border-black/10 bg-white px-4 py-3 outline-none transition focus:border-indigo/50 focus:ring-4 focus:ring-indigo/10; }
 .btn-primary { @apply rounded-full bg-indigo px-6 py-3 font-semibold text-white transition hover:opacity-90; }
 .btn-secondary { @apply rounded-full border border-black/10 bg-white px-6 py-3 font-semibold text-ink transition hover:bg-black/[0.03]; }
+
+/* ── Orb drift keyframes ─────────────────────────────────────────────────── */
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0px, 0px); }
+  25%       { transform: translate(32px, -18px); }
+  50%       { transform: translate(-22px, 38px); }
+  75%       { transform: translate(28px, 24px); }
+}
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0px, 0px); }
+  25%       { transform: translate(-30px, 26px); }
+  50%       { transform: translate(34px, -30px); }
+  75%       { transform: translate(-18px, -20px); }
+}
+@keyframes orbDrift3 {
+  0%, 100% { transform: translate(0px, 0px); }
+  33%       { transform: translate(26px, 18px); }
+  66%       { transform: translate(-24px, -22px); }
+}
+
+/* ── Hero entrance (above-fold, CSS-driven) ──────────────────────────────── */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-in {
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Scroll-reveal (below-fold, JS IntersectionObserver) ─────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity  0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Landing page — Japanese palette utilities ───────────────────────────── */
+.font-heading { font-family: var(--font-heading), Georgia, serif; }
+
+.lp-btn-primary {
+  @apply inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-all duration-200;
+  background-color: #B68A5A;
+}
+.lp-btn-primary:hover { background-color: #8A6238; }
+
+.lp-btn-secondary {
+  @apply inline-flex items-center rounded-full border px-6 py-3 text-sm font-semibold transition-all duration-200;
+  border-color: #E8DDD2;
+  color: #1E1B18;
+  background-color: transparent;
+}
+.lp-btn-secondary:hover { background-color: #FBF4EF; }

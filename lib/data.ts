@@ -94,3 +94,24 @@ export function currentMonthStart(): string {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 }
+
+export async function getProfile(): Promise<{ name: string | null; email: string | null }> {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { name: null, email: null };
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("name")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    return {
+      name: (data as { name: string | null } | null)?.name ?? null,
+      email: user.email ?? null,
+    };
+  } catch {
+    return { name: null, email: null };
+  }
+}
