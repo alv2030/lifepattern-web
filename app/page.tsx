@@ -318,7 +318,7 @@ export default function Home() {
                   />
                   <h3
                     className="font-heading font-semibold leading-tight text-[13px] md:text-[20px]"
-                    style={{ color: "#1E1B18", marginTop: "10px" }}
+                    style={{ color: "#1E1B18", marginTop: "-25px" }}
                   >
                     {f.title}
                   </h3>
