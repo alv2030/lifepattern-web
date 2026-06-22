@@ -46,24 +46,24 @@ const DISCOVERIES = [
 
 const FEATURES = [
   {
-    icon: "🔒",
+    img: "/features/feature-private.PNG",
     title: "Private by default",
-    body: "Your data belongs to you.",
+    body: "Your data belongs to you. Never sold, never shared.",
   },
   {
-    icon: "🧠",
+    img: "/features/feature-ai.PNG",
     title: "AI that waits for evidence",
-    body: "No guesses. Only patterns.",
+    body: "No guesses. Patterns only surface when the data supports them.",
   },
   {
-    icon: "🌸",
+    img: "/features/feature-gadern.PNG",
     title: "Beautiful progress",
-    body: "Grow your life garden.",
+    body: "Watch your life garden grow with every check-in.",
   },
   {
-    icon: "📊",
+    img: "/features/feature-data.PNG",
     title: "Backed by science",
-    body: "Behavioral & data driven.",
+    body: "Built on behavioral psychology and data science.",
   },
 ];
 
@@ -279,30 +279,42 @@ export default function Home() {
       </section>
 
       {/* ── Feature strip ────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 pb-12">
+      <section className="mx-auto max-w-7xl px-6 pb-16">
         <div
-          className="reveal rounded-[2rem] border bg-white px-8 py-8"
-          style={{ borderColor: "#E8DDD2" }}
+          className="reveal rounded-[2rem] bg-white px-6 py-12 md:px-10 md:py-14"
+          style={{
+            border: "1px solid #EDE6DE",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.05), 0 8px 40px rgba(0,0,0,0.04)",
+          }}
         >
-          <div className="grid grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-y-0">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-0">
             {FEATURES.map((f, i) => (
               <div
                 key={f.title}
                 className={[
-                  "flex flex-col gap-2 md:px-8",
-                  i === 0 ? "md:pl-0" : "",
-                  i === FEATURES.length - 1 ? "md:pr-0" : "md:border-r",
+                  "group flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center transition-all duration-300 md:px-8 md:py-8",
+                  "hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(182,138,90,0.12)]",
+                  i < FEATURES.length - 1 ? "md:border-r" : "",
                 ].join(" ")}
-                style={i < FEATURES.length - 1 ? { borderColor: "#E8DDD2" } : undefined}
+                style={i < FEATURES.length - 1 ? { borderColor: "#EDE6DE" } : undefined}
               >
-                <div
-                  className="mb-1 flex h-9 w-9 items-center justify-center rounded-full text-base"
-                  style={{ background: "#FBF4EF" }}
-                >
-                  {f.icon}
+                {/* Illustration */}
+                <div className="flex h-[100px] items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={f.img}
+                    alt={f.title}
+                    className="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                  />
                 </div>
-                <p className="text-sm font-semibold text-warm-ink">{f.title}</p>
-                <p className="text-xs leading-relaxed text-warm-muted">{f.body}</p>
+                {/* Title */}
+                <p className="font-heading text-[0.9375rem] font-bold leading-snug text-warm-ink">
+                  {f.title}
+                </p>
+                {/* Description */}
+                <p className="text-[0.8125rem] leading-relaxed text-warm-muted">
+                  {f.body}
+                </p>
               </div>
             ))}
           </div>
