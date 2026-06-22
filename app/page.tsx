@@ -104,35 +104,99 @@ export default function Home() {
       <LandingNav />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 pb-20 pt-12 md:pt-20">
-        <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16 lg:gap-24">
+      <section className="relative overflow-hidden" style={{ minHeight: "92vh" }}>
 
-          {/* Left: Copy */}
-          <div>
-            <span
-              className="hero-in mb-6 inline-flex items-center gap-2 rounded-full border border-sand px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-gold"
-              style={{ animationDelay: "0.05s" }}
-            >
-              AI Pattern Discovery
-            </span>
-            <h1
-              className="hero-in font-heading mt-4 text-5xl font-bold leading-[1.08] tracking-tight text-warm-ink md:text-6xl lg:text-[4.5rem]"
-              style={{ animationDelay: "0.18s" }}
-            >
-              AI finds the<br />
-              patterns.<br />
-              <span className="italic text-gold">You live better.</span>
-            </h1>
-            <p
-              className="hero-in mt-6 max-w-md text-lg leading-relaxed text-warm-muted"
-              style={{ animationDelay: "0.32s" }}
-            >
-              30-second check-ins. Real discoveries.<br className="hidden md:block" />
-              Better decisions. A life that feels like you.
-            </p>
+        {/* Immersive artwork — bleeds to viewport edge, desktop only */}
+        <div className="absolute inset-y-0 right-0 hidden w-[57%] md:block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mascots/lucky-cat-hero.png"
+            alt="Lucky cat in a Japanese garden with sakura tree, koi pond, and stone lantern"
+            className="h-full w-full object-cover object-center"
+          />
+          {/* Gradient fade into page background */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 w-3/4"
+            style={{
+              background:
+                "linear-gradient(to right, #FDFAF8 0%, #FDFAF8 6%, rgba(253,250,248,0.88) 30%, rgba(253,250,248,0.25) 65%, transparent 100%)",
+            }}
+          />
+          {/* Bottom vignette */}
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
+            style={{ background: "linear-gradient(to top, #FDFAF8, transparent)" }}
+          />
+        </div>
+
+        {/* Discovery card — floats over image, desktop */}
+        <div
+          className="absolute bottom-14 z-20 hidden max-w-[240px] rounded-2xl bg-white/90 px-5 py-4 backdrop-blur-sm md:block"
+          style={{
+            right: "9%",
+            boxShadow: "0 20px 60px rgba(182,138,90,0.20), 0 4px 16px rgba(0,0,0,0.06)",
+          }}
+        >
+          <p className="font-heading text-[11px] italic text-warm-muted">
+            I&apos;ve noticed something.
+          </p>
+          <p className="mt-2.5 text-sm leading-relaxed text-warm-ink">
+            On days you sleep 7+ hours,<br />
+            your mood improves by{" "}
+            <span className="font-bold text-gold">34%</span>.
+          </p>
+          <div className="mt-3 border-t pt-2.5" style={{ borderColor: "#E8DDD2" }}>
+            <p className="text-[11px] text-warm-muted">Confidence 87%</p>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-16 md:pb-24 md:pt-28">
+          <div className="max-w-[520px]">
+
+            {/* Badge */}
             <div
-              className="hero-in mt-8 flex flex-wrap gap-3"
-              style={{ animationDelay: "0.45s" }}
+              className="hero-in mb-8 inline-flex items-center rounded-full border px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em]"
+              style={{ borderColor: "#E8DDD2", color: "#B68A5A", animationDelay: "0.05s" }}
+            >
+              Personal Pattern Discovery
+            </div>
+
+            {/* Headline */}
+            <h1
+              className="hero-in font-heading text-[2.6rem] font-bold leading-[1.08] tracking-tight text-warm-ink md:text-5xl lg:text-[3.5rem]"
+              style={{ animationDelay: "0.15s" }}
+            >
+              Your life is already<br />
+              <span className="italic text-gold">telling</span> a story.
+              <span className="mt-4 block">
+                LifePattern helps you<br />
+                <span className="italic text-gold">read</span> it.
+              </span>
+            </h1>
+
+            {/* Supporting statement */}
+            <p
+              className="hero-in mt-8 text-lg font-medium leading-relaxed text-warm-ink"
+              style={{ animationDelay: "0.28s" }}
+            >
+              Your best days have something in common.<br className="hidden md:block" />
+              So do your worst ones.
+            </p>
+
+            {/* Body copy */}
+            <p
+              className="hero-in mt-3 max-w-sm text-base leading-relaxed text-warm-muted"
+              style={{ animationDelay: "0.36s" }}
+            >
+              Small moments leave clues. LifePattern helps you discover the people,
+              habits, places, and routines quietly shaping your life.
+            </p>
+
+            {/* CTAs */}
+            <div
+              className="hero-in mt-9 flex flex-wrap gap-3"
+              style={{ animationDelay: "0.46s" }}
             >
               <Link href="/auth" className="lp-btn-primary">
                 Start My First Check-in
@@ -141,43 +205,47 @@ export default function Home() {
                 See an Example
               </Link>
             </div>
+
+            {/* Social proof */}
             <p
               className="hero-in mt-5 text-sm text-warm-muted"
-              style={{ animationDelay: "0.58s" }}
+              style={{ animationDelay: "0.56s" }}
             >
               12,431+ people discovering patterns in their everyday lives
             </p>
-          </div>
 
-          {/* Right: Visual */}
-          <div
-            className="hero-in relative"
-            style={{ animationDelay: "0.25s" }}
-          >
-            {/* Hero artwork */}
-            <div className="overflow-hidden rounded-[2.5rem]">
+            {/* Mobile: hero image */}
+            <div className="relative mt-10 md:hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/mascots/lucky-cat-hero.png"
-                alt="Lucky cat in a Japanese garden with sakura tree, koi pond, and stone lantern"
-                className="w-full object-cover"
+                alt="Lucky cat in a Japanese garden"
+                className="w-full rounded-2xl object-cover"
+                style={{ height: "300px" }}
               />
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-20 rounded-b-2xl"
+                style={{ background: "linear-gradient(to top, #FDFAF8, transparent)" }}
+              />
+              {/* Mobile discovery card */}
+              <div
+                className="absolute bottom-4 left-3 max-w-[200px] rounded-xl bg-white/90 px-4 py-3 backdrop-blur-sm"
+                style={{ boxShadow: "0 8px 32px rgba(182,138,90,0.18)" }}
+              >
+                <p className="font-heading text-[10px] italic text-warm-muted">
+                  I&apos;ve noticed something.
+                </p>
+                <p className="mt-1.5 text-xs leading-relaxed text-warm-ink">
+                  On days you sleep 7+ hours, your mood improves by{" "}
+                  <span className="font-bold text-gold">34%</span>.
+                </p>
+                <p className="mt-1.5 text-[10px] text-warm-muted">Confidence 87%</p>
+              </div>
             </div>
 
-            {/* Discovery card — floats over bottom-left */}
-            <div className="absolute bottom-4 left-4 z-10 rounded-2xl bg-white px-4 py-3.5 shadow-gold">
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gold">
-                ✦ New Discovery
-              </p>
-              <p className="mt-1 text-sm font-semibold text-warm-ink">Sleep &gt; 7h</p>
-              <p className="mt-0.5 text-2xl font-bold tracking-tight text-warm-ink">
-                Mood +34%
-              </p>
-              <p className="mt-0.5 text-xs text-warm-muted">Confidence 87%</p>
-            </div>
           </div>
-
         </div>
+
       </section>
 
       {/* ── Feature strip ────────────────────────────────────────────────────── */}
