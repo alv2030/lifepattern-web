@@ -279,44 +279,56 @@ export default function Home() {
       </section>
 
       {/* ── Feature strip ────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-6 pb-16">
+      <section className="px-4 pb-16 md:px-6">
         <div
-          className="reveal rounded-[2rem] bg-white px-6 py-12 md:px-10 md:py-14"
+          className="reveal mx-auto overflow-hidden bg-white"
           style={{
-            border: "1px solid #EDE6DE",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.05), 0 8px 40px rgba(0,0,0,0.04)",
+            maxWidth: "1440px",
+            borderRadius: "36px",
+            border: "1px solid rgba(232, 221, 210, 0.6)",
+            boxShadow: "0 18px 50px rgba(30, 27, 24, 0.06)",
           }}
         >
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-0">
-            {FEATURES.map((f, i) => (
-              <div
-                key={f.title}
-                className={[
-                  "group flex flex-col items-center gap-4 rounded-2xl px-4 py-6 text-center transition-all duration-300 md:px-8 md:py-8",
-                  "hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(182,138,90,0.12)]",
-                  i < FEATURES.length - 1 ? "md:border-r" : "",
-                ].join(" ")}
-                style={i < FEATURES.length - 1 ? { borderColor: "#EDE6DE" } : undefined}
-              >
-                {/* Illustration */}
-                <div className="flex h-[100px] items-center justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={f.img}
-                    alt={f.title}
-                    className="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                  />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+            {FEATURES.map((f, i) => {
+              const borderClass = [
+                "border-b sm:border-r md:border-b-0",
+                "border-b sm:border-r-0 md:border-r md:border-b-0",
+                "border-b sm:border-r sm:border-b-0",
+                "",
+              ][i];
+              return (
+                <div
+                  key={f.title}
+                  className={`group flex flex-col items-center px-8 py-10 text-center transition-transform duration-300 ease-out hover:-translate-y-[6px] md:px-10 md:py-11 ${borderClass}`}
+                  style={{ borderColor: "rgba(182, 138, 90, 0.18)" }}
+                >
+                  {/* Illustration */}
+                  <div className="mb-5 flex h-[96px] items-center justify-center md:h-[120px]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={f.img}
+                      alt={f.title}
+                      className="h-full w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  {/* Title */}
+                  <h3
+                    className="font-heading mb-3 text-[20px] font-semibold leading-tight md:text-[24px]"
+                    style={{ color: "#1E1B18" }}
+                  >
+                    {f.title}
+                  </h3>
+                  {/* Description */}
+                  <p
+                    className="mx-auto text-[14px] md:text-[16px]"
+                    style={{ color: "#6F675F", lineHeight: "1.55", maxWidth: "240px" }}
+                  >
+                    {f.body}
+                  </p>
                 </div>
-                {/* Title */}
-                <p className="font-heading text-[0.9375rem] font-bold leading-snug text-warm-ink">
-                  {f.title}
-                </p>
-                {/* Description */}
-                <p className="text-[0.8125rem] leading-relaxed text-warm-muted">
-                  {f.body}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
