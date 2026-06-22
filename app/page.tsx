@@ -300,11 +300,11 @@ export default function Home() {
               return (
                 <div
                   key={f.title}
-                  className={`group flex flex-col items-center px-8 py-10 text-center transition-transform duration-300 ease-out hover:-translate-y-[6px] md:px-10 md:py-11 ${borderClass}`}
+                  className={`group flex flex-col items-center px-8 py-7 text-center md:px-10 md:py-8 ${borderClass}`}
                   style={{ borderColor: "rgba(182, 138, 90, 0.18)" }}
                 >
-                  {/* Illustration */}
-                  <div className="mb-5 flex h-[96px] items-center justify-center md:h-[120px]">
+                  {/* Illustration — 40% visual weight */}
+                  <div className="flex h-[90px] items-center justify-center md:h-[110px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={f.img}
@@ -312,17 +312,17 @@ export default function Home() {
                       className="h-full w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-[1.04]"
                     />
                   </div>
-                  {/* Title */}
+                  {/* Title — 12px below illustration */}
                   <h3
-                    className="font-heading mb-3 text-[20px] font-semibold leading-tight md:text-[24px]"
-                    style={{ color: "#1E1B18" }}
+                    className="font-heading font-semibold leading-tight"
+                    style={{ color: "#1E1B18", fontSize: "20px", marginTop: "12px" }}
                   >
                     {f.title}
                   </h3>
-                  {/* Description */}
+                  {/* Description — 8px below title */}
                   <p
-                    className="mx-auto text-[14px] md:text-[16px]"
-                    style={{ color: "#6F675F", lineHeight: "1.55", maxWidth: "240px" }}
+                    className="mx-auto"
+                    style={{ color: "#6F675F", fontSize: "14px", lineHeight: "1.5", maxWidth: "220px", marginTop: "8px" }}
                   >
                     {f.body}
                   </p>
