@@ -136,29 +136,31 @@ export default function Home() {
           style={{ bottom: "22%", right: "8%" }}
         >
           <div
-            className="relative max-w-[260px] rounded-2xl bg-white/92 px-5 py-5 backdrop-blur-sm"
-            style={{
-              boxShadow: "0 24px 64px rgba(182,138,90,0.22), 0 4px 20px rgba(0,0,0,0.07)",
-            }}
+            className="w-[228px] overflow-hidden rounded-2xl bg-white"
+            style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 12px 40px rgba(0,0,0,0.10)" }}
           >
-            {/* Gold top accent */}
+            {/* Gold top stripe */}
             <div
-              className="absolute left-5 right-12 top-0 h-[2px] rounded-b-full"
-              style={{ background: "linear-gradient(to right, #B68A5A, transparent)" }}
+              className="h-[3px]"
+              style={{ background: "linear-gradient(to right, #C4963E 0%, rgba(196,150,62,0.15) 100%)" }}
             />
-            <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: "#B68A5A" }} />
-              <p className="font-heading text-[11px] italic text-warm-muted">
+            <div className="px-5 py-4">
+              {/* Label */}
+              <p className="font-heading text-[10px] italic" style={{ color: "#B68A5A" }}>
                 I&apos;ve noticed something.
               </p>
-            </div>
-            <p className="mt-3 text-[0.9rem] leading-relaxed text-warm-ink">
-              On days you sleep 7+ hours,<br />
-              your mood improves by{" "}
-              <span className="font-semibold text-gold">34%</span>.
-            </p>
-            <div className="mt-3.5 border-t pt-3" style={{ borderColor: "#E8DDD2" }}>
-              <p className="text-[11px] tracking-wide text-warm-muted">Confidence 87%</p>
+              {/* Insight */}
+              <p className="mt-2.5 text-[0.8125rem] leading-snug text-warm-ink">
+                On days you sleep 7+ hours, your mood improves by{" "}
+                <span className="font-bold" style={{ color: "#C4963E" }}>34%</span>.
+              </p>
+              {/* Confidence row */}
+              <div className="mt-3.5 border-t pt-3" style={{ borderColor: "#EDE6DE" }}>
+                <div className="flex items-center justify-between">
+                  <p className="text-[10.5px] text-warm-muted">Confidence</p>
+                  <p className="text-[10.5px] font-semibold text-warm-ink">87%</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -249,20 +251,25 @@ export default function Home() {
               />
               {/* Mobile discovery card */}
               <div
-                className="absolute bottom-4 left-3 max-w-[200px] rounded-xl bg-white/90 px-4 py-3 backdrop-blur-sm"
-                style={{ boxShadow: "0 8px 32px rgba(182,138,90,0.18)" }}
+                className="absolute bottom-4 left-3 w-[190px] overflow-hidden rounded-xl bg-white"
+                style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.09)" }}
               >
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full" style={{ background: "#B68A5A" }} />
-                  <p className="font-heading text-[10px] italic text-warm-muted">
+                <div className="h-[2.5px]" style={{ background: "linear-gradient(to right, #C4963E, rgba(196,150,62,0.15))" }} />
+                <div className="px-3.5 py-3">
+                  <p className="font-heading text-[9px] italic" style={{ color: "#B68A5A" }}>
                     I&apos;ve noticed something.
                   </p>
+                  <p className="mt-1.5 text-[0.7rem] leading-snug text-warm-ink">
+                    On days you sleep 7+ hours, your mood improves by{" "}
+                    <span className="font-bold" style={{ color: "#C4963E" }}>34%</span>.
+                  </p>
+                  <div className="mt-2.5 border-t pt-2" style={{ borderColor: "#EDE6DE" }}>
+                    <div className="flex items-center justify-between">
+                      <p className="text-[9px] text-warm-muted">Confidence</p>
+                      <p className="text-[9px] font-semibold text-warm-ink">87%</p>
+                    </div>
+                  </div>
                 </div>
-                <p className="mt-1.5 text-xs leading-relaxed text-warm-ink">
-                  On days you sleep 7+ hours, your mood improves by{" "}
-                  <span className="font-semibold text-gold">34%</span>.
-                </p>
-                <p className="mt-1.5 text-[10px] text-warm-muted">Confidence 87%</p>
               </div>
             </div>
 
