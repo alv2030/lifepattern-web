@@ -154,67 +154,26 @@ export default function Home() {
             className="hero-in relative"
             style={{ animationDelay: "0.25s" }}
           >
-            {/* Garden container */}
-            <div
-              className="relative overflow-hidden rounded-[2.5rem]"
-              style={{
-                background: "linear-gradient(155deg, #FBF4EF 0%, #F2E5D2 55%, #E8D3B8 100%)",
-                minHeight: "460px",
-              }}
-            >
-              {/* Decorative sakura petals */}
-              <div className="pointer-events-none absolute inset-0" aria-hidden>
-                {[
-                  { top: "9%",  left: "11%", w: 11, h: 7,  rot: -35, op: 0.30 },
-                  { top: "14%", left: "76%", w: 8,  h: 5,  rot:  22, op: 0.22 },
-                  { top: "30%", left: "86%", w: 10, h: 6,  rot: -12, op: 0.26 },
-                  { top: "70%", left: "7%",  w: 9,  h: 6,  rot:  48, op: 0.24 },
-                  { top: "80%", left: "82%", w: 7,  h: 4,  rot: -52, op: 0.20 },
-                  { top: "50%", left: "90%", w: 6,  h: 4,  rot:  15, op: 0.18 },
-                ].map((p, i) => (
-                  <span
-                    key={i}
-                    className="absolute block rounded-full"
-                    style={{
-                      top: p.top, left: p.left,
-                      width: p.w, height: p.h,
-                      background: "#E8A87C",
-                      opacity: p.op,
-                      transform: `rotate(${p.rot}deg)`,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Main mascot — sakura garden cat */}
+            {/* Hero artwork */}
+            <div className="overflow-hidden rounded-[2.5rem]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/mascots/lucky-cat-sakura.PNG"
-                alt="Lucky cat in a sakura garden"
-                className="relative mx-auto block w-full max-w-[340px] object-contain pt-10 md:max-w-[380px]"
+                src="/mascots/lucky-cat-hero.png"
+                alt="Lucky cat in a Japanese garden with sakura tree, koi pond, and stone lantern"
+                className="w-full object-cover"
               />
-
-              {/* Discovery card — floats over bottom-left of image */}
-              <div className="absolute bottom-4 left-4 z-10 rounded-2xl bg-white px-4 py-3.5 shadow-gold">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gold">
-                  ✦ New Discovery
-                </p>
-                <p className="mt-1 text-sm font-semibold text-warm-ink">Sleep &gt; 7h</p>
-                <p className="mt-0.5 text-2xl font-bold tracking-tight text-warm-ink">
-                  Mood +34%
-                </p>
-                <p className="mt-0.5 text-xs text-warm-muted">Confidence 87%</p>
-              </div>
             </div>
 
-            {/* Greeting cat — floats outside top-right */}
-            <div className="absolute -right-3 -top-3 z-10 rounded-2xl bg-white p-2 shadow-gold md:-right-5 md:-top-5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/mascots/lucky-cat-greeting.PNG"
-                alt="Lucky cat waving"
-                className="h-16 w-16 object-contain md:h-20 md:w-20"
-              />
+            {/* Discovery card — floats over bottom-left */}
+            <div className="absolute bottom-4 left-4 z-10 rounded-2xl bg-white px-4 py-3.5 shadow-gold">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gold">
+                ✦ New Discovery
+              </p>
+              <p className="mt-1 text-sm font-semibold text-warm-ink">Sleep &gt; 7h</p>
+              <p className="mt-0.5 text-2xl font-bold tracking-tight text-warm-ink">
+                Mood +34%
+              </p>
+              <p className="mt-0.5 text-xs text-warm-muted">Confidence 87%</p>
             </div>
           </div>
 
