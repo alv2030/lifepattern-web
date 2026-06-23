@@ -443,22 +443,29 @@ export default function Home() {
                 </div>
               ))}
 
-              {MILESTONES.map((m) => (
+              {MILESTONES.map((m, i) => {
+                const isFinal = i === MILESTONES.length - 1;
+                return (
                 <div key={m.day} className="group flex flex-1 flex-col items-center gap-2 px-2">
 
                   {/* Illustration — no card wrapper */}
-                  <div className="relative z-10 inline-block">
+                  <div className="relative z-10 flex w-full justify-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={m.img}
                       alt={m.label}
-                      className="h-[170px] w-auto object-contain transition-transform duration-[280ms] ease-out group-hover:scale-[1.05] group-hover:-translate-y-1 md:h-[245px]"
+                      className={`max-w-full object-contain transition-transform duration-[280ms] ease-out group-hover:scale-[1.05] group-hover:-translate-y-1 ${isFinal ? "h-[192px] md:h-[278px]" : "h-[170px] md:h-[245px]"}`}
                     />
-                    {/* Fixed ground shadow — same geometry for every stage */}
+                    {/* Ground shadow */}
                     <div
                       aria-hidden
                       className="absolute bottom-1 left-1/2 h-3 -translate-x-1/2 rounded-full"
-                      style={{ width: "58%", background: "rgba(0,0,0,0.11)", filter: "blur(10px)", zIndex: -1 }}
+                      style={{
+                        width: isFinal ? "64%" : "58%",
+                        background: isFinal ? "rgba(182,138,90,0.18)" : "rgba(0,0,0,0.11)",
+                        filter: isFinal ? "blur(13px)" : "blur(10px)",
+                        zIndex: -1,
+                      }}
                     />
                   </div>
 
@@ -466,14 +473,19 @@ export default function Home() {
                   <div className="flex flex-col items-center gap-1">
                     <span
                       className="rounded-full border px-3 py-1 text-xs font-bold"
-                      style={{ borderColor: "#E8DDD2", background: "white", color: "#B68A5A" }}
+                      style={{
+                        borderColor: isFinal ? "rgba(182,138,90,0.5)" : "#E8DDD2",
+                        background: isFinal ? "rgba(182,138,90,0.07)" : "white",
+                        color: "#B68A5A",
+                      }}
                     >
                       {m.day}
                     </span>
                     <p className="text-center text-sm font-semibold text-warm-ink">{m.label}</p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
 
             </div>
           </div>
