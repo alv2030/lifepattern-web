@@ -406,18 +406,18 @@ export default function Home() {
 
           {/* Timeline — scrollable on mobile */}
           <div className="reveal -mx-6 overflow-x-auto px-6 pb-4 md:overflow-visible md:pb-0">
-            <div className="relative flex min-w-[1100px] md:min-w-0">
+            <div className="relative flex min-w-[1200px] md:min-w-0">
 
               {/* Connecting journey line */}
               <div
                 aria-hidden
                 className="absolute hidden md:block"
                 style={{
-                  top: "100px",
+                  top: "122px",
                   left: "10%",
                   right: "10%",
-                  height: "1px",
-                  background: "linear-gradient(90deg, transparent 0%, rgba(182,138,90,0.3) 8%, rgba(182,138,90,0.3) 92%, transparent 100%)",
+                  height: "1.5px",
+                  background: "linear-gradient(90deg, transparent 0%, rgba(182,138,90,0.4) 8%, rgba(182,138,90,0.4) 92%, transparent 100%)",
                 }}
               />
               {/* Directional chevrons between stages */}
@@ -426,26 +426,34 @@ export default function Home() {
                   key={pct}
                   aria-hidden
                   className="absolute hidden md:flex items-center justify-center"
-                  style={{ top: "91px", left: `${pct}%`, transform: "translateX(-50%)", zIndex: 5 }}
+                  style={{
+                    top: "109px",
+                    left: `${pct}%`,
+                    transform: "translateX(-50%)",
+                    zIndex: 5,
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "50%",
+                    background: "#F5EDE4",
+                  }}
                 >
-                  <svg width="9" height="14" viewBox="0 0 9 14" fill="none">
-                    <path d="M1.5 1.5L7 7l-5.5 5.5" stroke="rgba(182,138,90,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg width="11" height="17" viewBox="0 0 11 17" fill="none">
+                    <path d="M2 1.5l7 7-7 7" stroke="rgba(182,138,90,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
               ))}
 
               {MILESTONES.map((m) => (
-                <div key={m.day} className="group flex flex-1 flex-col items-center gap-4 px-3">
+                <div key={m.day} className="group flex flex-1 flex-col items-center gap-3 px-2">
 
-                  {/* Mascot card */}
-                  <div
-                    className="relative z-10 flex h-[200px] w-[200px] items-end justify-center overflow-hidden rounded-[1.5rem] border border-sand bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] transition-all duration-[280ms] ease-out hover:-translate-y-2 hover:shadow-[0_16px_40px_rgba(182,138,90,0.14)]"
-                  >
+                  {/* Illustration — no card wrapper */}
+                  <div className="relative z-10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={m.img}
                       alt={m.label}
-                      className="h-full w-full object-contain object-bottom transition-transform duration-[280ms] ease-out group-hover:scale-[1.04]"
+                      className="h-[170px] w-auto object-contain transition-transform duration-[280ms] ease-out group-hover:scale-[1.05] group-hover:-translate-y-1 md:h-[245px]"
+                      style={{ filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.10))" }}
                     />
                   </div>
 
