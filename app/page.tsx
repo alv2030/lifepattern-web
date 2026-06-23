@@ -64,11 +64,11 @@ const FEATURES = [
 ];
 
 const MILESTONES = [
-  { day: "Day 1",   label: "Seed",           img: "/mascots/garden-seed.PNG"    },
-  { day: "Day 7",   label: "First Pattern",  img: "/mascots/garden-day-7.PNG"   },
-  { day: "Day 30",  label: "Blooming",       img: "/mascots/garden-day-30.PNG"  },
-  { day: "Day 100", label: "Wise Cat",       img: "/mascots/garden-day-100.PNG" },
-  { day: "Day 365", label: "Master Garden",  img: "/mascots/garden-day-365.PNG" },
+  { day: "Day 1",   label: "Seed",           img: "/mascots/garden-seed.PNG?v=2"    },
+  { day: "Day 7",   label: "First Pattern",  img: "/mascots/garden-day-7.PNG?v=2"   },
+  { day: "Day 30",  label: "Blooming",       img: "/mascots/garden-day-30.PNG?v=2"  },
+  { day: "Day 100", label: "Wise Cat",       img: "/mascots/garden-day-100.PNG?v=2" },
+  { day: "Day 365", label: "Master Garden",  img: "/mascots/garden-day-365.PNG?v=2" },
 ];
 
 const STEPS = [
