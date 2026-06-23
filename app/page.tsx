@@ -9,8 +9,6 @@ const DISCOVERIES = [
     strength: "Strong pattern",
     title: "Exercise is your top energy source",
     evidence: "Observed across 14 of your last 30 check-ins",
-    stat: "14",
-    statLabel: "days observed",
     img: "/mascots/lucky-cat-energy.PNG",
   },
   {
@@ -19,9 +17,7 @@ const DISCOVERIES = [
     pillText: "text-red-700",
     strength: "Clear signal",
     title: "Meetings longer than 90 min trigger stress",
-    evidence: "Seen in 6 of your 8 highest-stress days",
-    stat: "6 / 8",
-    statLabel: "highest-stress days",
+    evidence: "Seen in 6 of your highest-stress days",
     img: "/mascots/lucky-cat-stress.PNG",
   },
   {
@@ -30,9 +26,7 @@ const DISCOVERIES = [
     pillText: "text-indigo",
     strength: "Strong pattern",
     title: "Time with family = happier days",
-    evidence: "Appeared in 4 of your 5 happiest days",
-    stat: "4 / 5",
-    statLabel: "happiest days",
+    evidence: "Appeared in 4 of your happiest days",
     img: "/mascots/lucky-cat-mood.PNG",
   },
   {
@@ -41,9 +35,7 @@ const DISCOVERIES = [
     pillText: "text-green-800",
     strength: "Clearest signal",
     title: "7+ hours of sleep changes everything",
-    evidence: "Days with 7+ hours showed 32% better mood",
-    stat: "+32%",
-    statLabel: "mood improvement",
+    evidence: "Days with 7+ hours showed better mood",
     img: "/mascots/lucky-cat-sleep.PNG",
   },
 ];
@@ -365,9 +357,9 @@ export default function Home() {
               className="card reveal group flex flex-col gap-0 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_64px_rgba(182,138,90,0.14)]"
               style={{ transitionDelay: `${i * 0.1}s` }}
             >
-              {/* Mascot illustration */}
+              {/* Mascot — full-bleed to card top edge */}
               <div
-                className="mb-5 flex h-[200px] items-end justify-center overflow-hidden rounded-2xl"
+                className="-mx-6 -mt-6 mb-6 flex h-[200px] items-end justify-center overflow-hidden rounded-t-3xl"
                 style={{ background: "rgba(232, 221, 210, 0.22)" }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -385,16 +377,11 @@ export default function Home() {
                 <span className="text-xs text-warm-muted">{d.strength}</span>
               </div>
 
-              <h3 className="font-heading mt-4 text-lg font-semibold leading-snug text-warm-ink">
+              <h3 className="font-heading mt-5 text-lg font-semibold leading-snug text-warm-ink">
                 {d.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-relaxed text-warm-muted">{d.evidence}</p>
-
-              <div className="mt-5 border-t pt-4" style={{ borderColor: "#E8DDD2" }}>
-                <p className="text-2xl font-bold tracking-tight text-warm-ink">{d.stat}</p>
-                <p className="mt-0.5 text-xs text-warm-muted">{d.statLabel}</p>
-              </div>
+              <p className="mt-3 pb-2 text-sm leading-relaxed text-warm-muted">{d.evidence}</p>
             </div>
           ))}
         </div>
