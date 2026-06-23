@@ -64,11 +64,11 @@ const FEATURES = [
 ];
 
 const MILESTONES = [
-  { day: "Day 1",   label: "Seed",           img: "/mascots/lucky-cat-seed.png" },
-  { day: "Day 7",   label: "First Pattern",  img: "/mascots/lucky-cat-7.PNG"    },
-  { day: "Day 30",  label: "Blooming",       img: "/mascots/lucky-cat-30.PNG"   },
-  { day: "Day 100", label: "Wise Cat",       img: "/mascots/lucky-cat-100.PNG"  },
-  { day: "Day 365", label: "Master Garden",  img: "/mascots/lucky-cat-365.PNG"  },
+  { day: "Day 1",   label: "Seed",           img: "/mascots/garden-seed.PNG"    },
+  { day: "Day 7",   label: "First Pattern",  img: "/mascots/garden-day-7.PNG"   },
+  { day: "Day 30",  label: "Blooming",       img: "/mascots/garden-day-30.PNG"  },
+  { day: "Day 100", label: "Wise Cat",       img: "/mascots/garden-day-100.PNG" },
+  { day: "Day 365", label: "Master Garden",  img: "/mascots/garden-day-365.PNG" },
 ];
 
 const STEPS = [
@@ -406,28 +406,46 @@ export default function Home() {
 
           {/* Timeline — scrollable on mobile */}
           <div className="reveal -mx-6 overflow-x-auto px-6 pb-4 md:overflow-visible md:pb-0">
-            <div className="relative flex min-w-[700px] md:min-w-0">
+            <div className="relative flex min-w-[1100px] md:min-w-0">
 
-              {/* Connecting thread */}
+              {/* Connecting journey line */}
               <div
                 aria-hidden
-                className="absolute top-[72px] hidden border-t-2 border-dashed md:block"
-                style={{ left: "10%", right: "10%", borderColor: "#E8DDD2" }}
+                className="absolute hidden md:block"
+                style={{
+                  top: "100px",
+                  left: "10%",
+                  right: "10%",
+                  height: "1px",
+                  background: "linear-gradient(90deg, transparent 0%, rgba(182,138,90,0.3) 8%, rgba(182,138,90,0.3) 92%, transparent 100%)",
+                }}
               />
+              {/* Directional chevrons between stages */}
+              {[20, 40, 60, 80].map((pct) => (
+                <div
+                  key={pct}
+                  aria-hidden
+                  className="absolute hidden md:flex items-center justify-center"
+                  style={{ top: "91px", left: `${pct}%`, transform: "translateX(-50%)", zIndex: 5 }}
+                >
+                  <svg width="9" height="14" viewBox="0 0 9 14" fill="none">
+                    <path d="M1.5 1.5L7 7l-5.5 5.5" stroke="rgba(182,138,90,0.45)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              ))}
 
               {MILESTONES.map((m) => (
-                <div key={m.day} className="flex flex-1 flex-col items-center gap-3 px-3">
+                <div key={m.day} className="group flex flex-1 flex-col items-center gap-4 px-3">
 
                   {/* Mascot card */}
                   <div
-                    className="relative z-10 flex h-36 w-36 items-end justify-center overflow-hidden rounded-[1.25rem] border bg-white"
-                    style={{ borderColor: "#E8DDD2" }}
+                    className="relative z-10 flex h-[200px] w-[200px] items-end justify-center overflow-hidden rounded-[1.5rem] border border-sand bg-white shadow-[0_2px_10px_rgba(0,0,0,0.06)] transition-all duration-[280ms] ease-out hover:-translate-y-2 hover:shadow-[0_16px_40px_rgba(182,138,90,0.14)]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={m.img}
                       alt={m.label}
-                      className="h-full w-full object-contain object-bottom"
+                      className="h-full w-full object-contain object-bottom transition-transform duration-[280ms] ease-out group-hover:scale-[1.04]"
                     />
                   </div>
 
