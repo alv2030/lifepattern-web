@@ -455,6 +455,7 @@ export default function Home() {
                       src={m.img}
                       alt={m.label}
                       className={`max-w-full object-contain transition-transform duration-[280ms] ease-out group-hover:scale-[1.05] group-hover:-translate-y-1 ${isFinal ? "h-[192px] md:h-[278px]" : "h-[170px] md:h-[245px]"}`}
+                      style={isFinal ? { filter: "drop-shadow(0 0 14px rgba(182,138,90,0.28))" } : undefined}
                     />
                   </div>
 
@@ -470,7 +471,19 @@ export default function Home() {
                     >
                       {m.day}
                     </span>
-                    <p className="text-center text-sm font-semibold text-warm-ink">{m.label}</p>
+                    <p
+                      className="m-0 text-center font-semibold"
+                      style={{
+                        fontSize: "14px",
+                        color: isFinal ? "#B68A5A" : "#1E1B18",
+                        lineHeight: "1.25",
+                        letterSpacing: "-0.01em",
+                        minHeight: "2.5rem",
+                        maxWidth: "110px",
+                      }}
+                    >
+                      {m.label}
+                    </p>
                   </div>
                 </div>
                 );
