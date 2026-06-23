@@ -11,6 +11,7 @@ const DISCOVERIES = [
     evidence: "Observed across 14 of your last 30 check-ins",
     stat: "14",
     statLabel: "days observed",
+    img: "/mascots/lucky-cat-energy.PNG",
   },
   {
     category: "Stress",
@@ -21,6 +22,7 @@ const DISCOVERIES = [
     evidence: "Seen in 6 of your 8 highest-stress days",
     stat: "6 / 8",
     statLabel: "highest-stress days",
+    img: "/mascots/lucky-cat-stress.PNG",
   },
   {
     category: "Mood",
@@ -31,6 +33,7 @@ const DISCOVERIES = [
     evidence: "Appeared in 4 of your 5 happiest days",
     stat: "4 / 5",
     statLabel: "happiest days",
+    img: "/mascots/lucky-cat-mood.PNG",
   },
   {
     category: "Sleep",
@@ -41,6 +44,7 @@ const DISCOVERIES = [
     evidence: "Days with 7+ hours showed 32% better mood",
     stat: "+32%",
     statLabel: "mood improvement",
+    img: "/mascots/lucky-cat-sleep.PNG",
   },
 ];
 
@@ -361,6 +365,16 @@ export default function Home() {
               className="card reveal group flex flex-col gap-0 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_64px_rgba(182,138,90,0.14)]"
               style={{ transitionDelay: `${i * 0.1}s` }}
             >
+              {/* Mascot illustration */}
+              <div className="mb-4 flex h-[120px] items-end justify-center overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={d.img}
+                  alt={d.category}
+                  className="h-full w-auto object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.04]"
+                />
+              </div>
+
               <div className="flex items-center justify-between">
                 <span className={`rounded-full px-3 py-1 text-xs font-semibold ${d.pillBg} ${d.pillText}`}>
                   {d.category}
