@@ -366,12 +366,15 @@ export default function Home() {
               style={{ transitionDelay: `${i * 0.1}s` }}
             >
               {/* Mascot illustration */}
-              <div className="mb-4 flex h-[120px] items-end justify-center overflow-hidden">
+              <div
+                className="mb-5 flex h-[200px] items-end justify-center overflow-hidden rounded-2xl"
+                style={{ background: "rgba(232, 221, 210, 0.22)" }}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={d.img}
                   alt={d.category}
-                  className="h-full w-auto object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.04]"
+                  className="h-[95%] w-auto object-contain object-bottom transition-transform duration-300 group-hover:scale-[1.04]"
                 />
               </div>
 
