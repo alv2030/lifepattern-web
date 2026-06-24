@@ -28,15 +28,14 @@ export function PageShell({ children, bg }: PageShellProps) {
       style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "top center",
         backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
       }}
     >
       {/* Warm parchment overlay for readability */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "rgba(251, 244, 239, 0.55)" }}
+        style={{ background: "rgba(251, 244, 239, 0.30)" }}
       />
       <div className="relative z-10 flex min-h-screen flex-col">
         <Nav />
