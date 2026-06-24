@@ -37,13 +37,16 @@ const RISK_DESC = {
 };
 
 const glassCard: React.CSSProperties = {
-  background: "rgba(251,244,239,0.86)",
+  background: "rgba(251,244,239,0.82)",
   backdropFilter: "blur(24px)",
   WebkitBackdropFilter: "blur(24px)",
   border: "1px solid rgba(255,255,255,0.70)",
   boxShadow: "0 24px 64px rgba(30,27,24,0.12), inset 0 1px 0 rgba(255,255,255,0.50)",
   borderRadius: "28px",
 };
+
+// Natural stone widths — no two identical, like river pebbles
+const STONE_W = [46, 40, 44, 38, 43];
 
 export default async function Dashboard() {
   const [checkIns, { name, email }] = await Promise.all([
@@ -61,7 +64,7 @@ export default async function Dashboard() {
     return (
       <PageShell bg="/check-in-bg.PNG">
         <section className="flex min-h-[80vh] items-center justify-center px-5 py-12">
-          <div className="w-full px-10 py-12" style={{ ...glassCard, maxWidth: "540px" }}>
+          <div className="w-full px-12 py-14" style={{ ...glassCard, maxWidth: "600px" }}>
 
             {/* Badge */}
             <span style={{
@@ -87,14 +90,15 @@ export default async function Dashboard() {
               Check in daily and your garden begins to grow. Most people see their first discovery within 7 days.
             </p>
 
-            {/* 5 garden stones — all empty */}
+            {/* 5 garden stones — all empty, first stone pulses as invitation */}
             <div className="mt-8">
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                 {Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} style={{
-                    width: "42px", height: "24px", borderRadius: "999px",
+                    width: `${STONE_W[i]}px`, height: "24px", borderRadius: "999px",
                     background: "rgba(182,138,90,0.07)",
                     border: "1.5px solid rgba(182,138,90,0.22)",
+                    animation: i === 0 ? "stoneGlow 2.6s ease-in-out infinite" : undefined,
                   }} />
                 ))}
               </div>
@@ -123,7 +127,7 @@ export default async function Dashboard() {
     return (
       <PageShell bg="/check-in-bg.PNG">
         <section className="flex min-h-[80vh] items-center justify-center px-5 py-12">
-          <div className="w-full px-10 py-12" style={{ ...glassCard, maxWidth: "540px" }}>
+          <div className="w-full px-12 py-14" style={{ ...glassCard, maxWidth: "600px" }}>
 
             {/* Badge */}
             <span style={{
@@ -150,14 +154,15 @@ export default async function Dashboard() {
               {remainingLabel}
             </p>
 
-            {/* Garden stones */}
+            {/* Garden stones — organic widths, next-to-fill stone pulses */}
             <div className="mt-8">
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                 {Array.from({ length: 5 }).map((_, i) => {
                   const filled = i < checkIns.length;
+                  const isNext = i === checkIns.length; // first unfilled stone
                   return (
                     <div key={i} style={{
-                      width: "42px", height: "24px", borderRadius: "999px",
+                      width: `${STONE_W[i]}px`, height: "24px", borderRadius: "999px",
                       background: filled
                         ? "linear-gradient(145deg, #C9986B 0%, #96632E 100%)"
                         : "rgba(182,138,90,0.07)",
@@ -165,12 +170,13 @@ export default async function Dashboard() {
                       boxShadow: filled
                         ? "0 3px 10px rgba(182,138,90,0.32), inset 0 1px 0 rgba(255,255,255,0.22)"
                         : "none",
+                      animation: isNext ? "stoneGlow 2.6s ease-in-out infinite" : undefined,
                     }} />
                   );
                 })}
               </div>
               <p className="mt-3" style={{ fontSize: "11px", color: "#A89B90", letterSpacing: ".03em" }}>
-                First discovery unlocks after 5 check-ins
+                Your first discovery is almost ready.
               </p>
             </div>
 

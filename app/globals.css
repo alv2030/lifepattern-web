@@ -58,6 +58,12 @@ body {
   transform: translateY(0);
 }
 
+/* ── Garden stone glow — dashboard anticipation pulse ───────────────────── */
+@keyframes stoneGlow {
+  0%, 100% { box-shadow: 0 0 0px rgba(182,138,90,0);     border-color: rgba(182,138,90,0.22); }
+  50%       { box-shadow: 0 0 18px 4px rgba(182,138,90,0.38); border-color: rgba(182,138,90,0.55); }
+}
+
 /* ── Landing page — Japanese palette utilities ───────────────────────────── */
 .font-heading { font-family: var(--font-heading), Georgia, serif; }
 
