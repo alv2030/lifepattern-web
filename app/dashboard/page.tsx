@@ -50,7 +50,7 @@ export default async function Dashboard() {
   /* ── Empty ──────────────────────────────────────────────────────────── */
   if (!checkIns.length) {
     return (
-      <PageShell>
+      <PageShell bg="/check-in-bg.PNG">
         <section className="mx-auto max-w-4xl px-6 py-20">
           <div className="mx-auto max-w-md text-center">
             <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-lavender">
@@ -82,7 +82,7 @@ export default async function Dashboard() {
   /* ── Sparse (<5) ────────────────────────────────────────────────────── */
   if (checkIns.length < 5) {
     return (
-      <PageShell>
+      <PageShell bg="/check-in-bg.PNG">
         <section className="mx-auto max-w-4xl px-6 py-20">
           <div className="mx-auto max-w-md">
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted">
@@ -144,7 +144,7 @@ export default async function Dashboard() {
   ];
 
   return (
-    <PageShell>
+    <PageShell bg="/check-in-bg.PNG">
       <section className="mx-auto max-w-4xl px-6 py-12">
 
         {/* ── Header ───────────────────────────────────────────────────── */}
