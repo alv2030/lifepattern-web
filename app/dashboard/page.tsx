@@ -36,6 +36,15 @@ const RISK_DESC = {
   High:   "Stress rising while energy falls — consider a recovery day.",
 };
 
+const glassCard: React.CSSProperties = {
+  background: "rgba(251,244,239,0.86)",
+  backdropFilter: "blur(24px)",
+  WebkitBackdropFilter: "blur(24px)",
+  border: "1px solid rgba(255,255,255,0.70)",
+  boxShadow: "0 24px 64px rgba(30,27,24,0.12), inset 0 1px 0 rgba(255,255,255,0.50)",
+  borderRadius: "28px",
+};
+
 export default async function Dashboard() {
   const [checkIns, { name, email }] = await Promise.all([
     getCheckIns({ from: isoDateDaysAgo(60) }),
@@ -51,13 +60,13 @@ export default async function Dashboard() {
   if (!checkIns.length) {
     return (
       <PageShell bg="/check-in-bg.PNG">
-        <section className="mx-auto max-w-4xl px-6 py-20">
-          <div className="mx-auto max-w-md text-center">
-            <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-lavender">
-              <div className="h-8 w-8 rounded-full border-2 border-indigo/30 bg-indigo/10" />
+        <section className="flex min-h-[80vh] items-center justify-center px-5 py-12">
+          <div className="w-full px-10 py-12 text-center" style={{ ...glassCard, maxWidth: "520px" }}>
+            <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: "rgba(182,138,90,0.10)" }}>
+              <div className="h-6 w-6 rounded-full" style={{ background: "rgba(182,138,90,0.30)" }} />
             </div>
             <h1 className="text-3xl font-bold tracking-tight">Your patterns start here.</h1>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
+            <p className="mt-4 leading-relaxed text-muted">
               Check in daily — most people see their first insight within 7 days.
             </p>
             <Link href="/check-in" className="btn-primary mt-8 inline-block">
@@ -67,7 +76,8 @@ export default async function Dashboard() {
               {["Energy patterns", "Stress triggers", "Life Clarity Score"].map((l) => (
                 <span
                   key={l}
-                  className="rounded-full border border-black/10 px-3 py-1.5 text-xs text-muted"
+                  className="rounded-full px-3 py-1.5 text-xs"
+                  style={{ border: "1px solid rgba(182,138,90,0.20)", color: "#6F675F" }}
                 >
                   {l}
                 </span>
@@ -83,27 +93,28 @@ export default async function Dashboard() {
   if (checkIns.length < 5) {
     return (
       <PageShell bg="/check-in-bg.PNG">
-        <section className="mx-auto max-w-4xl px-6 py-20">
-          <div className="mx-auto max-w-md">
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted">
+        <section className="flex min-h-[80vh] items-center justify-center px-5 py-12">
+          <div className="w-full px-10 py-12" style={{ ...glassCard, maxWidth: "540px" }}>
+            <p className="text-xs font-semibold uppercase tracking-[0.15em]" style={{ color: "#B68A5A" }}>
               Building baseline
             </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight">
+            <h1 className="mt-3 text-3xl font-bold tracking-tight" style={{ color: "#1E1B18" }}>
               {checkIns.length} of 5 check-ins logged.
             </h1>
-            <p className="mt-3 leading-relaxed text-muted">
+            <p className="mt-3 leading-relaxed" style={{ color: "#6F675F" }}>
               The engine is learning. Each entry teaches it something new about your patterns.
             </p>
             <div className="mt-8 flex items-center gap-2.5">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                    i < checkIns.length ? "bg-indigo" : "bg-black/10"
-                  }`}
+                  className="h-2.5 w-2.5 rounded-full transition-colors"
+                  style={{
+                    background: i < checkIns.length ? "#B68A5A" : "rgba(30,27,24,0.12)",
+                  }}
                 />
               ))}
-              <span className="ml-1 text-sm text-muted">
+              <span className="ml-1 text-sm" style={{ color: "#6F675F" }}>
                 {5 - checkIns.length} more to unlock insights
               </span>
             </div>
@@ -145,7 +156,14 @@ export default async function Dashboard() {
 
   return (
     <PageShell bg="/check-in-bg.PNG">
-      <section className="mx-auto max-w-4xl px-6 py-12">
+      <section className="mx-auto max-w-4xl px-5 py-10">
+      <div className="rounded-[28px] px-6 py-10 md:px-10 md:py-12" style={{
+        background: "rgba(251,244,239,0.80)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: "1px solid rgba(255,255,255,0.65)",
+        boxShadow: "0 24px 64px rgba(30,27,24,0.10), inset 0 1px 0 rgba(255,255,255,0.50)",
+      }}>
 
         {/* ── Header ───────────────────────────────────────────────────── */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -330,6 +348,7 @@ export default async function Dashboard() {
           )}
         </div>
 
+      </div>{/* end glass panel */}
       </section>
     </PageShell>
   );
