@@ -37,12 +37,12 @@ const RISK_DESC = {
 };
 
 const glassCard: React.CSSProperties = {
-  background: "rgba(251,244,239,0.82)",
-  backdropFilter: "blur(24px)",
-  WebkitBackdropFilter: "blur(24px)",
-  border: "1px solid rgba(255,255,255,0.70)",
-  boxShadow: "0 24px 64px rgba(30,27,24,0.12), inset 0 1px 0 rgba(255,255,255,0.50)",
-  borderRadius: "28px",
+  background: "rgba(251,244,239,0.76)",
+  backdropFilter: "blur(36px)",
+  WebkitBackdropFilter: "blur(36px)",
+  border: "1px solid rgba(255,240,220,0.55)",
+  boxShadow: "0 32px 80px rgba(140,90,40,0.10), inset 0 1px 0 rgba(255,255,255,0.55)",
+  borderRadius: "32px",
 };
 
 // Natural stone widths — no two identical, like river pebbles
@@ -90,15 +90,15 @@ export default async function Dashboard() {
               Check in daily and your garden begins to grow. Most people see their first discovery within 7 days.
             </p>
 
-            {/* 5 garden stones — all empty, first stone pulses as invitation */}
+            {/* 5 garden stones — all empty, first stone breathes as invitation */}
             <div className="mt-8">
               <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                 {Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} style={{
-                    width: `${STONE_W[i]}px`, height: "24px", borderRadius: "999px",
-                    background: "rgba(182,138,90,0.07)",
-                    border: "1.5px solid rgba(182,138,90,0.22)",
-                    animation: i === 0 ? "stoneGlow 2.6s ease-in-out infinite" : undefined,
+                    width: `${STONE_W[i]}px`, height: "26px", borderRadius: "999px",
+                    background: "rgba(182,138,90,0.12)",
+                    border: "1.5px solid rgba(182,138,90,0.35)",
+                    animation: i === 0 ? "stoneGlow 3.8s ease-in-out infinite" : undefined,
                   }} />
                 ))}
               </div>
@@ -108,7 +108,7 @@ export default async function Dashboard() {
             </div>
 
             {/* CTA */}
-            <Link href="/check-in" className="btn-primary mt-8 inline-block">
+            <Link href="/check-in" className="btn-garden mt-8">
               Start your first check-in
             </Link>
 
@@ -154,23 +154,23 @@ export default async function Dashboard() {
               {remainingLabel}
             </p>
 
-            {/* Garden stones — organic widths, next-to-fill stone pulses */}
+            {/* Garden stones — organic widths, tactile filled, 5th stone breathes */}
             <div className="mt-8">
               <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                 {Array.from({ length: 5 }).map((_, i) => {
                   const filled = i < checkIns.length;
-                  const isNext = i === checkIns.length; // first unfilled stone
+                  const isNext = i === checkIns.length;
                   return (
                     <div key={i} style={{
-                      width: `${STONE_W[i]}px`, height: "24px", borderRadius: "999px",
+                      width: `${STONE_W[i]}px`, height: "26px", borderRadius: "999px",
                       background: filled
-                        ? "linear-gradient(145deg, #C9986B 0%, #96632E 100%)"
-                        : "rgba(182,138,90,0.07)",
-                      border: filled ? "none" : "1.5px solid rgba(182,138,90,0.22)",
+                        ? "linear-gradient(160deg, #D4A574 0%, #8B5E2E 100%)"
+                        : "rgba(182,138,90,0.12)",
+                      border: filled ? "none" : "1.5px solid rgba(182,138,90,0.35)",
                       boxShadow: filled
-                        ? "0 3px 10px rgba(182,138,90,0.32), inset 0 1px 0 rgba(255,255,255,0.22)"
+                        ? "0 2px 4px rgba(80,40,10,0.20), inset 0 2px 0 rgba(255,255,255,0.30)"
                         : "none",
-                      animation: isNext ? "stoneGlow 2.6s ease-in-out infinite" : undefined,
+                      animation: isNext ? "stoneGlow 3.8s ease-in-out infinite" : undefined,
                     }} />
                   );
                 })}
@@ -181,7 +181,7 @@ export default async function Dashboard() {
             </div>
 
             {/* CTA */}
-            <Link href="/check-in" className="btn-primary mt-8 inline-block">
+            <Link href="/check-in" className="btn-garden mt-8">
               Check in now
             </Link>
 
