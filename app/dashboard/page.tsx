@@ -61,28 +61,53 @@ export default async function Dashboard() {
     return (
       <PageShell bg="/check-in-bg.PNG">
         <section className="flex min-h-[80vh] items-center justify-center px-5 py-12">
-          <div className="w-full px-10 py-12 text-center" style={{ ...glassCard, maxWidth: "520px" }}>
-            <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: "rgba(182,138,90,0.10)" }}>
-              <div className="h-6 w-6 rounded-full" style={{ background: "rgba(182,138,90,0.30)" }} />
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight">Your patterns start here.</h1>
-            <p className="mt-4 leading-relaxed text-muted">
-              Check in daily — most people see their first insight within 7 days.
+          <div className="w-full px-10 py-12" style={{ ...glassCard, maxWidth: "540px" }}>
+
+            {/* Badge */}
+            <span style={{
+              display: "inline-block",
+              fontSize: "10px", fontWeight: 700,
+              letterSpacing: ".16em", textTransform: "uppercase" as const,
+              color: "#B68A5A",
+              background: "rgba(182,138,90,0.08)",
+              border: "1px solid rgba(182,138,90,0.18)",
+              borderRadius: "999px",
+              padding: "4px 12px",
+            }}>
+              Your garden awaits
+            </span>
+
+            {/* Headline */}
+            <h1 className="font-heading mt-5" style={{ fontSize: "28px", fontWeight: 700, lineHeight: 1.2, letterSpacing: "-.02em", color: "#1E1B18" }}>
+              Plant your first seed.
+            </h1>
+
+            {/* Copy */}
+            <p className="mt-3" style={{ lineHeight: 1.65, color: "#6F675F" }}>
+              Check in daily and your garden begins to grow. Most people see their first discovery within 7 days.
             </p>
+
+            {/* 5 garden stones — all empty */}
+            <div className="mt-8">
+              <div style={{ display: "flex", gap: "10px" }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} style={{
+                    width: "42px", height: "24px", borderRadius: "999px",
+                    background: "rgba(182,138,90,0.07)",
+                    border: "1.5px solid rgba(182,138,90,0.22)",
+                  }} />
+                ))}
+              </div>
+              <p className="mt-3" style={{ fontSize: "11px", color: "#A89B90", letterSpacing: ".03em" }}>
+                First discovery unlocks after 5 check-ins
+              </p>
+            </div>
+
+            {/* CTA */}
             <Link href="/check-in" className="btn-primary mt-8 inline-block">
               Start your first check-in
             </Link>
-            <div className="mt-8 flex flex-wrap justify-center gap-2">
-              {["Energy patterns", "Stress triggers", "Life Clarity Score"].map((l) => (
-                <span
-                  key={l}
-                  className="rounded-full px-3 py-1.5 text-xs"
-                  style={{ border: "1px solid rgba(182,138,90,0.20)", color: "#6F675F" }}
-                >
-                  {l}
-                </span>
-              ))}
-            </div>
+
           </div>
         </section>
       </PageShell>
@@ -91,36 +116,69 @@ export default async function Dashboard() {
 
   /* ── Sparse (<5) ────────────────────────────────────────────────────── */
   if (checkIns.length < 5) {
+    const remaining = 5 - checkIns.length;
+    const remainingLabel = remaining === 1
+      ? "One more reflection unlocks your first discovery."
+      : `${remaining} more reflections to your first discovery.`;
     return (
       <PageShell bg="/check-in-bg.PNG">
         <section className="flex min-h-[80vh] items-center justify-center px-5 py-12">
           <div className="w-full px-10 py-12" style={{ ...glassCard, maxWidth: "540px" }}>
-            <p className="text-xs font-semibold uppercase tracking-[0.15em]" style={{ color: "#B68A5A" }}>
-              Building baseline
-            </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight" style={{ color: "#1E1B18" }}>
-              {checkIns.length} of 5 check-ins logged.
+
+            {/* Badge */}
+            <span style={{
+              display: "inline-block",
+              fontSize: "10px", fontWeight: 700,
+              letterSpacing: ".16em", textTransform: "uppercase" as const,
+              color: "#B68A5A",
+              background: "rgba(182,138,90,0.08)",
+              border: "1px solid rgba(182,138,90,0.18)",
+              borderRadius: "999px",
+              padding: "4px 12px",
+            }}>
+              Building your garden
+            </span>
+
+            {/* Headline */}
+            <h1 className="font-heading mt-5" style={{ fontSize: "28px", fontWeight: 700, lineHeight: 1.2, letterSpacing: "-.02em", color: "#1E1B18" }}>
+              Your garden is learning your patterns.
             </h1>
-            <p className="mt-3 leading-relaxed" style={{ color: "#6F675F" }}>
-              The engine is learning. Each entry teaches it something new about your patterns.
+
+            {/* Copy */}
+            <p className="mt-3" style={{ lineHeight: 1.65, color: "#6F675F" }}>
+              You&apos;ve completed {checkIns.length} of 5 check-ins.{" "}
+              {remainingLabel}
             </p>
-            <div className="mt-8 flex items-center gap-2.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-2.5 w-2.5 rounded-full transition-colors"
-                  style={{
-                    background: i < checkIns.length ? "#B68A5A" : "rgba(30,27,24,0.12)",
-                  }}
-                />
-              ))}
-              <span className="ml-1 text-sm" style={{ color: "#6F675F" }}>
-                {5 - checkIns.length} more to unlock insights
-              </span>
+
+            {/* Garden stones */}
+            <div className="mt-8">
+              <div style={{ display: "flex", gap: "10px" }}>
+                {Array.from({ length: 5 }).map((_, i) => {
+                  const filled = i < checkIns.length;
+                  return (
+                    <div key={i} style={{
+                      width: "42px", height: "24px", borderRadius: "999px",
+                      background: filled
+                        ? "linear-gradient(145deg, #C9986B 0%, #96632E 100%)"
+                        : "rgba(182,138,90,0.07)",
+                      border: filled ? "none" : "1.5px solid rgba(182,138,90,0.22)",
+                      boxShadow: filled
+                        ? "0 3px 10px rgba(182,138,90,0.32), inset 0 1px 0 rgba(255,255,255,0.22)"
+                        : "none",
+                    }} />
+                  );
+                })}
+              </div>
+              <p className="mt-3" style={{ fontSize: "11px", color: "#A89B90", letterSpacing: ".03em" }}>
+                First discovery unlocks after 5 check-ins
+              </p>
             </div>
+
+            {/* CTA */}
             <Link href="/check-in" className="btn-primary mt-8 inline-block">
               Check in now
             </Link>
+
           </div>
         </section>
       </PageShell>
