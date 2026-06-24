@@ -2,21 +2,33 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PageShell } from "@/components/page-shell";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 
 type Mode = "login" | "signup" | "forgot";
 
+const glassCard: React.CSSProperties = {
+  background: "rgba(251, 244, 239, 0.84)",
+  backdropFilter: "blur(20px)",
+  WebkitBackdropFilter: "blur(20px)",
+  border: "1px solid rgba(255, 255, 255, 0.70)",
+  boxShadow: "0 24px 64px rgba(30, 27, 24, 0.11)",
+  borderRadius: "24px",
+  width: "100%",
+  maxWidth: "420px",
+  padding: "40px",
+};
+
 function AuthForm() {
-  const [mode, setMode] = useState<Mode>("login");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [mode, setMode]           = useState<Mode>("login");
+  const [email, setEmail]         = useState("");
+  const [password, setPassword]   = useState("");
+  const [error, setError]         = useState<string | null>(null);
+  const [loading, setLoading]     = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
-  const router = useRouter();
+  const router       = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next         = searchParams.get("next") ?? "/dashboard";
 
   async function handleSubmit() {
     setLoading(true);
@@ -51,100 +63,188 @@ function AuthForm() {
 
   if (checkEmail) {
     return (
-      <section className="mx-auto max-w-md px-6 py-14">
-        <div className="card p-8 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-lavender text-2xl font-bold text-indigo">@</div>
-          <h1 className="mt-6 text-2xl font-bold tracking-tight">
-            {mode === "forgot" ? "Reset link sent" : "Check your email"}
-          </h1>
-          <p className="mt-3 text-muted">
-            {mode === "forgot"
-              ? <>We sent a password reset link to <span className="font-semibold text-ink">{email}</span>. Check your inbox.</>
-              : <>We sent a confirmation link to <span className="font-semibold text-ink">{email}</span>. Click it to activate your account.</>}
-          </p>
-          <button className="btn-secondary mt-6" onClick={() => switchMode("login")}>Back to sign in</button>
-        </div>
-      </section>
+      <div style={{ ...glassCard, textAlign: "center" }}>
+        <div style={{
+          width: "52px", height: "52px", borderRadius: "50%",
+          background: "rgba(182,138,90,0.12)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          margin: "0 auto", fontSize: "22px", fontWeight: 700, color: "#B68A5A",
+        }}>@</div>
+        <h1 className="font-heading mt-6 text-2xl font-bold tracking-tight" style={{ color: "#1E1B18" }}>
+          {mode === "forgot" ? "Reset link sent" : "Check your email"}
+        </h1>
+        <p className="mt-3 text-sm" style={{ color: "#6F675F", lineHeight: "1.65" }}>
+          {mode === "forgot"
+            ? <>We sent a password reset link to <span style={{ fontWeight: 600, color: "#1E1B18" }}>{email}</span>. Check your inbox.</>
+            : <>We sent a confirmation link to <span style={{ fontWeight: 600, color: "#1E1B18" }}>{email}</span>. Click it to activate your account.</>}
+        </p>
+        <button className="lp-btn-secondary mt-6 w-full justify-center" onClick={() => switchMode("login")}>
+          Back to sign in
+        </button>
+      </div>
     );
   }
 
   return (
-    <section className="mx-auto max-w-md px-6 py-14">
-      <div className="card p-8">
-        <h1 className="text-3xl font-bold tracking-tight">
-          {mode === "login" ? "Welcome back" : mode === "signup" ? "Create your account" : "Reset your password"}
-        </h1>
-        <p className="mt-2 text-muted">
-          {mode === "login"
-            ? "Sign in to see your patterns."
-            : mode === "signup"
-            ? "Start understanding yourself in 30 seconds a day."
-            : "Enter your email and we'll send a reset link."}
-        </p>
-        <div className="mt-6 space-y-4">
+    <div style={glassCard}>
+      <h1 className="font-heading text-2xl font-bold tracking-tight" style={{ color: "#1E1B18" }}>
+        {mode === "login" ? "Welcome back" : mode === "signup" ? "Create your account" : "Reset your password"}
+      </h1>
+      <p className="mt-2 text-sm" style={{ color: "#6F675F", lineHeight: "1.65" }}>
+        {mode === "login"
+          ? "Sign in to see your patterns."
+          : mode === "signup"
+          ? "Start understanding yourself in 30 seconds a day."
+          : "Enter your email and we'll send a reset link."}
+      </p>
+
+      <div className="mt-6 space-y-4">
+        <label className="block">
+          <span className="text-sm font-semibold" style={{ color: "#1E1B18" }}>Email</span>
+          <input
+            className="input mt-2"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          />
+        </label>
+        {mode !== "forgot" && (
           <label className="block">
-            <span className="text-sm font-semibold">Email</span>
+            <span className="text-sm font-semibold" style={{ color: "#1E1B18" }}>Password</span>
             <input
               className="input mt-2"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="password"
+              placeholder="8+ characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             />
           </label>
-          {mode !== "forgot" && (
-            <label className="block">
-              <span className="text-sm font-semibold">Password</span>
-              <input
-                className="input mt-2"
-                type="password"
-                placeholder="8+ characters"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-              />
-            </label>
-          )}
-          {error && <p className="text-sm text-red-500">{error}</p>}
+        )}
+        {error && <p className="text-sm" style={{ color: "#DC2626" }}>{error}</p>}
+        <button
+          className="lp-btn-primary w-full justify-center disabled:opacity-50"
+          type="button"
+          onClick={handleSubmit}
+          disabled={loading || !email || (mode !== "forgot" && !password)}
+        >
+          {loading ? "…" : mode === "login" ? "Sign in" : mode === "signup" ? "Create account" : "Send reset link"}
+        </button>
+        {mode === "login" && (
           <button
-            className="btn-primary w-full disabled:opacity-50"
             type="button"
-            onClick={handleSubmit}
-            disabled={loading || !email || (mode !== "forgot" && !password)}
+            className="w-full text-center text-sm transition-colors hover:text-warm-ink"
+            style={{ color: "#6F675F" }}
+            onClick={() => switchMode("forgot")}
           >
-            {loading ? "..." : mode === "login" ? "Sign in" : mode === "signup" ? "Create account" : "Send reset link"}
+            Forgot password?
           </button>
-          {mode === "login" && (
-            <button
-              type="button"
-              className="w-full text-center text-sm text-muted hover:text-ink"
-              onClick={() => switchMode("forgot")}
-            >
-              Forgot password?
-            </button>
-          )}
-        </div>
-        <p className="mt-6 text-center text-sm text-muted">
-          {mode === "forgot" ? (
-            <>Remember it? <button className="font-semibold text-indigo" onClick={() => switchMode("login")}>Sign in</button></>
-          ) : mode === "login" ? (
-            <>No account? <button className="font-semibold text-indigo" onClick={() => switchMode("signup")}>Sign up</button></>
-          ) : (
-            <>Already have one? <button className="font-semibold text-indigo" onClick={() => switchMode("login")}>Sign in</button></>
-          )}
-        </p>
+        )}
       </div>
-    </section>
+
+      <p className="mt-6 text-center text-sm" style={{ color: "#6F675F" }}>
+        {mode === "forgot" ? (
+          <>Remember it?{" "}
+            <button className="font-semibold transition-colors hover:opacity-80" style={{ color: "#B68A5A" }} onClick={() => switchMode("login")}>Sign in</button>
+          </>
+        ) : mode === "login" ? (
+          <>No account?{" "}
+            <button className="font-semibold transition-colors hover:opacity-80" style={{ color: "#B68A5A" }} onClick={() => switchMode("signup")}>Sign up free</button>
+          </>
+        ) : (
+          <>Already have one?{" "}
+            <button className="font-semibold transition-colors hover:opacity-80" style={{ color: "#B68A5A" }} onClick={() => switchMode("login")}>Sign in</button>
+          </>
+        )}
+      </p>
+    </div>
   );
 }
 
 export default function Auth() {
   return (
-    <PageShell>
-      <Suspense fallback={<div className="mx-auto max-w-md px-6 py-14"><div className="card p-8 h-64 animate-pulse bg-mist" /></div>}>
-        <AuthForm />
-      </Suspense>
-    </PageShell>
+    <div className="relative min-h-screen overflow-hidden">
+
+      {/* Full-viewport garden scene — desktop */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/login-bg-des.PNG"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 hidden h-full w-full object-cover md:block"
+        style={{ zIndex: 0 }}
+      />
+      {/* Full-viewport garden scene — mobile */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/login-bg-phone.PNG"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 block h-full w-full object-cover md:hidden"
+        style={{ zIndex: 0 }}
+      />
+
+      {/* Minimal pre-auth nav — no app links */}
+      <header
+        className="relative z-10 flex items-center justify-between px-6 py-4"
+        style={{
+          background: "rgba(251, 244, 239, 0.52)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(232, 221, 210, 0.30)",
+        }}
+      >
+        <Link href="/" className="font-heading text-xl font-bold tracking-tight" style={{ color: "#1E1B18" }}>
+          LifePattern
+        </Link>
+        <Link
+          href="/"
+          className="text-sm transition-colors hover:text-warm-ink"
+          style={{ color: "#6F675F" }}
+        >
+          ← Home
+        </Link>
+      </header>
+
+      {/* Card centered in the open mist of the scene */}
+      <main
+        className="relative z-10 flex items-center justify-center px-4 py-10"
+        style={{ minHeight: "calc(100vh - 112px)" }}
+      >
+        <Suspense
+          fallback={
+            <div style={{
+              background: "rgba(251,244,239,0.70)",
+              backdropFilter: "blur(20px)",
+              borderRadius: "24px",
+              height: "340px",
+              width: "100%",
+              maxWidth: "420px",
+            }} />
+          }
+        >
+          <AuthForm />
+        </Suspense>
+      </main>
+
+      {/* Minimal footer */}
+      <footer
+        className="relative z-10 flex items-center justify-between px-6 py-4 text-sm"
+        style={{
+          background: "rgba(251, 244, 239, 0.52)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          borderTop: "1px solid rgba(232, 221, 210, 0.30)",
+          color: "#6F675F",
+        }}
+      >
+        <span>© 2026 LifePattern</span>
+        <Link href="/privacy" className="transition-colors hover:text-warm-ink" style={{ color: "#6F675F" }}>
+          Privacy
+        </Link>
+      </footer>
+    </div>
   );
 }
