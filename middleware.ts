@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED = ["/check-in", "/dashboard", "/reports", "/insights", "/history", "/account"];
+const PROTECTED = ["/check-in", "/dashboard", "/reports", "/insights", "/history", "/account", "/onboarding"];
 
 export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -41,11 +41,19 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(p)
   );
 
-  if (!user && isProtected) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth";
-    url.searchParams.set("next", request.nextUrl.pathname);
-    return NextResponse.redirect(url);
+  if (isProtected) {
+    const redirect = request.nextUrl.clone();
+    redirect.pathname = "/auth";
+
+    if (!user) {
+      redirect.searchParams.set("next", request.nextUrl.pathname);
+      return NextResponse.redirect(redirect);
+    }
+
+    if (!user.email_confirmed_at) {
+      redirect.searchParams.set("error", "verify_email");
+      return NextResponse.redirect(redirect);
+    }
   }
 
   return supabaseResponse;

@@ -30,6 +30,12 @@ function AuthForm() {
   const searchParams = useSearchParams();
   const next         = searchParams.get("next") ?? "/dashboard";
 
+  // Surface middleware-level errors (e.g. unverified user hitting a protected route)
+  const urlError = searchParams.get("error");
+  const bannerMessage = urlError === "verify_email"
+    ? "Please verify your email before signing in. Check your inbox for the confirmation link."
+    : null;
+
   async function handleSubmit() {
     setLoading(true);
     setError(null);
@@ -38,11 +44,28 @@ function AuthForm() {
     if (mode === "signup") {
       const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) { setError(error.message); setLoading(false); return; }
-      if (data.session) { router.push("/onboarding"); router.refresh(); }
-      else setCheckEmail(true);
+      // Never auto-redirect after signup — always require email verification
+      setCheckEmail(true);
+      if (data.session) await supabase.auth.signOut();
     } else if (mode === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) { setError(error.message); setLoading(false); return; }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        const msg = error.message.toLowerCase();
+        if (msg.includes("email not confirmed") || msg.includes("not confirmed")) {
+          setError("Please verify your email before signing in. Check your inbox for the confirmation link.");
+        } else {
+          setError(error.message);
+        }
+        setLoading(false);
+        return;
+      }
+      // Defense-in-depth: block even if Supabase didn't return an error
+      if (data.user && !data.user.email_confirmed_at) {
+        await supabase.auth.signOut();
+        setError("Please verify your email before signing in. Check your inbox for the confirmation link.");
+        setLoading(false);
+        return;
+      }
       router.push(next);
       router.refresh();
     } else {
@@ -97,6 +120,12 @@ function AuthForm() {
           ? "Start understanding yourself in 30 seconds a day."
           : "Enter your email and we'll send a reset link."}
       </p>
+
+      {bannerMessage && (
+        <div className="mt-5 rounded-2xl px-4 py-3 text-sm" style={{ background: "rgba(182,138,90,0.10)", color: "#7A5A2F", border: "1px solid rgba(182,138,90,0.25)" }}>
+          {bannerMessage}
+        </div>
+      )}
 
       <div className="mt-6 space-y-4">
         <label className="block">
